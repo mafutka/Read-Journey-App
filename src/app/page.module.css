@@ -1,4 +1,4 @@
-.page {
+/* .page { */
   /* --background: #fafafa;
   --foreground: #fff;
 
@@ -15,7 +15,7 @@
   justify-content: center;
   font-family: var(--font-geist-sans);
   background-color: var(--background); */
-}
+/* }
 
 .main {
   display: flex;
@@ -28,7 +28,7 @@
   background-color: var(--foreground);
   padding: 120px 60px;
 }
-
+ */
 
 /* Enable hover only on non-touch devices */
 /* @media (hover: hover) and (pointer: fine) {
