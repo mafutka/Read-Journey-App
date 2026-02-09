@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import css from "./layout.module.css"
 
 export const metadata: Metadata = {
   title: "Reading Books App",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <div className={css.container}>
+          {children}
+        </div>
       </body>
     </html>
   );
