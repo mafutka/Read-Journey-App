@@ -4,10 +4,3 @@
   padding: 20px;
   background-color: black;
 }
-
-/* tablet */
-@media (min-width: 768px) {
-  .container {
-    padding: 32px;
-  }
-} 
