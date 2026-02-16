@@ -20,6 +20,7 @@ export const RegisterForm = () => {
 
   return (
     <FormProvider {...methods}>
+      
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
         className="space-y-4"

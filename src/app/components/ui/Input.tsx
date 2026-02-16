@@ -1,3 +1,4 @@
+import css from "./Input.module.css"
 import { useFormContext } from "react-hook-form";
 
 type InputProps = {
@@ -18,7 +19,7 @@ export default function Input({
       type={type}
       placeholder={placeholder}
       {...register(name)}
-      className="w-full bg-[#2c2c2e] px-4 py-3 rounded-xl"
+      className={css.input}
     />
   );
 }
