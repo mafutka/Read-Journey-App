@@ -1,0 +1,11 @@
+.button {
+  background-color: var(--foreground);
+  color: var(--background);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 29px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 129%;
+  letter-spacing: 0.02em;
+}

@@ -1,4 +1,5 @@
 import { Card } from "../ui/Card";
+import css from "./Auth.module.css"
 
 export const AuthLayout = ({
   children,
@@ -6,7 +7,7 @@ export const AuthLayout = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#141414] px-4">
+    <div className={css.container}>
       <Card>{children}</Card>
     </div>
   );

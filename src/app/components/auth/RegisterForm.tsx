@@ -8,6 +8,7 @@ import {
 } from "../../../services/auth/authValidation";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import css from "./Auth.module.css"
 
 export const RegisterForm = () => {
   const methods = useForm<RegisterFormData>({
@@ -23,17 +24,20 @@ export const RegisterForm = () => {
       
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
-        className="space-y-4"
+        className={css.form}
       >
-        <Input name="name" placeholder="Name" />
+
+        <h1>Expand your mind, reading <span className={css.abook}>a book</span> </h1>
+
+        <Input name="name" placeholder="Name:" />
         <p>{methods.formState.errors.name?.message}</p>
 
-        <Input name="email" placeholder="Email" />
+        <Input name="email" placeholder="Email:" />
         <p>{methods.formState.errors.email?.message}</p>
 
         <Input
           name="password"
-          placeholder="Password"
+          placeholder="Password:"
           type="password"
         />
         <p>{methods.formState.errors.password?.message}</p>

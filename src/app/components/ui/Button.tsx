@@ -1,3 +1,5 @@
+import css from "./Button.module.css"
+
 export default function Button({
   children,
   type = "button",
@@ -8,7 +10,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className="w-full py-3 rounded-full border border-white/20 hover:bg-white/10 transition"
+      className={css.button}
     >
       {children}
     </button>
