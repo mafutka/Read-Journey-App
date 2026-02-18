@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
@@ -9,15 +10,40 @@ import {
 } from "../../../services/auth/authValidation"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
+import { registerUser } from "../../../services/auth/authApi"
+import { useRouter } from "next/navigation"
 import css from "./Auth.module.css"
 
 export const RegisterForm = () => {
-  const methods = useForm<RegisterFormData>({
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState<string>("")
+    const methods = useForm<RegisterFormData>({
+    mode: "onTouched",
     resolver: yupResolver(registerSchema),
   })
 
-  const onSubmit = async (data: RegisterFormData) => {
-    console.log(data)
+  async function onSubmit(data: RegisterFormData) {
+    try {
+      setErrorMessage("")
+
+      const result = await registerUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+
+      if (result.token) {
+        localStorage.setItem("token", result.token)
+
+        router.push("/recommended")
+      }
+    } catch (error) {
+  if (error instanceof Error) {
+    setErrorMessage(error.message)
+  } else {
+    setErrorMessage("Something went wrong")
+  }
+}
   }
 
   return (
@@ -56,6 +82,7 @@ export const RegisterForm = () => {
           Already have an account?
         </Link>
         </div>
+        {errorMessage && <p className={css.errorMessage}>{errorMessage}</p>}
       </form>
     </FormProvider>
   )

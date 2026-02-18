@@ -1,29 +1,61 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
-  registerSchema,
-  RegisterFormData,
+  loginSchema,
+  LoginFormData,
 } from "../../../services/auth/authValidation"
+import { useRouter } from "next/navigation"
+import {loginUser} from "../../../services/auth/authApi"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
 import css from "./Auth.module.css"
 
-export const RegisterForm = () => {
-  const methods = useForm<RegisterFormData>({
-    resolver: yupResolver(registerSchema),
+export const LoginForm = () => {
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = useState<string>("")
+ const methods = useForm<LoginFormData>({
+    mode: "onTouched",
+    resolver: yupResolver(loginSchema),
   })
 
-  const onSubmit = async (data: RegisterFormData) => {
-    console.log(data)
+  async function onSubmit(data: LoginFormData) {
+    try {
+      setErrorMessage("")
+
+      const result = await loginUser({
+        email: data.email,
+        password: data.password,
+      })
+
+      if (result.token) {
+        localStorage.setItem("token", result.token)
+        router.push("/recommended")
+      }
+    } catch (error) {
+        if(error instanceof Error) {
+          setErrorMessage(error.message)
+        } else {
+          setErrorMessage("Unexpected error occurred")
+        }
+     
+    }
   }
 
   return (
-    <FormProvider {...methods}>
+     <>
+        {errorMessage && (
+        <div className={css.errorMessage}>
+          {errorMessage}
+        </div>
+      )}
+     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} className={css.form}>
-        <div className={css.logo}>
+        <div className={css.top}>
+            <div className={css.logo}>
           <svg className={css.logoIcon}>
             <use href="/symbol-defs.svg#icon-icon" />
           </svg>
@@ -44,15 +76,18 @@ export const RegisterForm = () => {
             <p>{methods.formState.errors.password?.message}</p>
           </div>
         </div>
+        </div>
+        
         <div className={css.actions}>
           <Button type="submit">Log in</Button>
-          <Link href="/login" className={css.link}>
+          <Link href="/register" className={css.link}>
           Don’t have an account?
         </Link>
         </div>
 
         
       </form>
-    </FormProvider>
+    </FormProvider></>
+    
   )
 }
