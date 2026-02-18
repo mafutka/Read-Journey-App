@@ -1,10 +1,21 @@
 
+.form {
+    min-height: 411px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 @media (min-width: 768px) {
     .form {
         padding: 20px 44px;
+        min-height: 960px;
 }
 }
-
+@media (min-width: 1440px) {
+    .form {
+        min-height: 736px;
+}
+}
 .logo {
     margin-bottom: 40px;
 }
@@ -15,6 +26,7 @@
 
 .logoText {
   display: none;
+  
 }
 @media (min-width: 768px) {
     .logo {
@@ -25,14 +37,26 @@
 }
 }
 .title {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .abook {
     color: var(--abook);
 }
-
 .inputs {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }   
+.actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.link {
+    color: var(--text-gray);
+}
+.link:hover,
+.link:focus {
+    color: var(--foreground);
+}

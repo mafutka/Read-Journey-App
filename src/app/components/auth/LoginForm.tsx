@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useForm, FormProvider } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
@@ -43,8 +44,14 @@ export const RegisterForm = () => {
             <p>{methods.formState.errors.password?.message}</p>
           </div>
         </div>
+        <div className={css.actions}>
+          <Button type="submit">Log in</Button>
+          <Link href="/login" className={css.link}>
+          Don’t have an account?
+        </Link>
+        </div>
 
-        <Button type="submit">Log in</Button>
+        
       </form>
     </FormProvider>
   )
