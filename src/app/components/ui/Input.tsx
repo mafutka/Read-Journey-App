@@ -3,23 +3,26 @@ import { useFormContext } from "react-hook-form";
 
 type InputProps = {
   name: string;
-  placeholder: string;
+  label: string;
   type?: string;
 };
 
 export default function Input({
   name,
-  placeholder,
+  label,
   type = "text",
 }: InputProps) {
   const { register } = useFormContext();
 
   return (
-    <input
+    <div className={css.wrapper}>
+      <span className={css.label}>{label}</span>
+       <input
       type={type}
-      placeholder={placeholder}
       {...register(name)}
       className={css.input}
     />
+    </div>
+   
   );
 }

@@ -1,7 +1,38 @@
-.container {}
 
-.form {}
+@media (min-width: 768px) {
+    .form {
+        padding: 20px 44px;
+}
+}
 
+.logo {
+    margin-bottom: 40px;
+}
+.logoIcon {
+  width: 42px;
+  height: 17px;
+}
+
+.logoText {
+  display: none;
+}
+@media (min-width: 768px) {
+    .logo {
+    margin-bottom: 150px;
+}
+    .logoText {
+  display: inline;
+}
+}
+.title {
+    margin-bottom: 40px;
+}
 .abook {
     color: var(--abook);
 }
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}   

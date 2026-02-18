@@ -1,4 +1,5 @@
 import type {Metadata} from "next";
+import css from "./layout.module.css"
 import "./globals.css";
 
 
@@ -14,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={css.app}>
           {children}
       </body>
     </html>

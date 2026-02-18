@@ -1,7 +1,28 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--input-background);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 14px;
+  transition: border 0.2s ease;
+}
+
+.wrapper:hover,
+.wrapper:focus-within {
+  border: 1px solid rgba(249, 249, 249, 0.1);
+}
+
+.label {
+  opacity: 0.6;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
 .input {
-    background-color: var(--input-background);
-    border: none;
-    border-radius: 12px;
-padding: 14px;
-width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: var(--foreground);
 }
