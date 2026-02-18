@@ -1,24 +1,27 @@
-import Header from "../components/Header/Header";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import css from "./protected.module.css";
+"use client"
 
-export default async function ProtectedLayout({
+import Header from "../components/Header/Header"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+
+export default function ProtectedLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token");
+  const router = useRouter()
 
-  if (!token) {
-    redirect("/register");
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      router.push("/login")
+    }
+  }, [])
 
   return (
-    <div className={css.container}>
+    <>
       <Header />
-      {children}
-    </div>
-  );
+      <main>{children}</main>
+    </>
+  )
 }

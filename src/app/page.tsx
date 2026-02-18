@@ -2,13 +2,8 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { AuthLayout } from "../components/auth/AuthLayout"
 
-export default function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
@@ -16,8 +11,10 @@ export default function PublicLayout({
 
     if (token) {
       router.replace("/recommended")
+    } else {
+      router.replace("/login")
     }
   }, [router])
 
-  return <AuthLayout>{children}</AuthLayout>
+  return null
 }

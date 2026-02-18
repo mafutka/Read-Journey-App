@@ -5,7 +5,7 @@ export async function registerUser(data: {
   email: string;
   password: string;
 }) {
-  const response = await fetch(`${BASE}/auth/register`, {
+  const response = await fetch(`${BASE}/api/users/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -24,7 +24,7 @@ export async function loginUser(data: {
   email: string;
   password: string;
 }) {
-  const response = await fetch(`${BASE}/auth/login`, {
+  const response = await fetch(`${BASE}/api/users/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -37,4 +37,23 @@ export async function loginUser(data: {
   }
 
   return result;
+}
+
+export async function logoutUser() {
+  const token = localStorage.getItem("token")
+
+  const response = await fetch(
+    "https://readjourney.b.goit.study/api/users/signout",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+
+  if (!response.ok) {
+    const result = await response.json()
+    throw new Error(result.message || "Logout failed")
+  }
 }

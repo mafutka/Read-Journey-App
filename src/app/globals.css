@@ -3,6 +3,7 @@
   --foreground: #f9f9f9;
   --input-background: #262626;
   --text-gray: #686868;
+  --red: #e90516;
   --abook: rgba(227, 227, 227, 0.5);
 }
 
@@ -32,4 +33,14 @@ button {
 
 h1, h2, h3, h4, p {
   margin: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--foreground);
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: 0 0 0px 1000px var(--input-background) inset;
 }

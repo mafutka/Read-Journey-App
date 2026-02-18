@@ -22,7 +22,7 @@
 
 @media (min-width: 768px) {
   .logoText {
-    display: inline;
+    display: block;
     font-weight: 700;
     font-family: var(--font-family);
     font-size: 18px;
