@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation"
 import { useState,  useEffect } from "react"
 import {logoutUser} from "../../../services/auth/authApi"
+import DarkButton from "../ui/DarkButton"
 import Link from "next/link"
 import css from "./Header.module.css"
 
@@ -37,13 +38,38 @@ useEffect(() => {
         </svg>
         <p className={css.logoText}> READ JOURNEY</p>
       </div>
+
       <button className={css.burger} onClick={() => setMenuOpen(!menuOpen)}>
        <svg className={css.burgerIcon}>
           <use href="/symbol-defs.svg#icon-Icon_burger" />
         </svg>
       </button>
+
+{/* Десктоп навігація */}
+    <nav className={css.navigationDesktop}>
+      <Link
+          href="/recommended"
+          className={
+            pathname === "/recommended"
+              ? css.active
+              : css.navItem
+          }
+        >
+          Home
+        </Link>
+        <Link
+          href="/library"
+          className={
+            pathname === "/library"
+              ? css.active
+              : css.navItem
+          }
+        >
+          My library
+        </Link>
+    </nav>
        
-      <nav className={`${css.navigation} ${menuOpen ? css.open : ""}`}>
+      {/* <nav className={`${css.navigation} ${menuOpen ? css.open : ""}`}>
         <Link
           href="/recommended"
           className={
@@ -65,13 +91,13 @@ useEffect(() => {
         >
           My library
         </Link>
-      </nav>
+      </nav> */}
+
       <div className={css.userBar}>
         <div className={css.avatar}>{userInitial}</div>
-
-        <button onClick={handleLogout} className={css.logout}>
+        <DarkButton onClick={handleLogout}>
           Log out
-        </button>
+        </DarkButton>
       </div>
     </div>
   )
