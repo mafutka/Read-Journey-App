@@ -1,15 +1,18 @@
 .sidebar {
   position: fixed;
+  display: flex;
+  flex-direction: column;
   top: 0;
   right: -100%;
-  width: 280px;
+  width: 50%;
   height: 100vh;
   background: var(--background);
-  padding: 24px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: right 0.3s ease;
+  padding-top: 280px;
   z-index: 1000;
 }
 
@@ -18,29 +21,44 @@
 }
 
 .closeBtn {
-  align-self: flex-end;
+    position: absolute;
+    top: 34px;
+    right: 40px;
   background: none;
   border: none;
-  font-size: 24px;
-  color: var(--foreground);
-  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+.closeBtnIcon {
+    width: 24px;
+    height: 24px;
 }
 
 .navigation {
   display: flex;
+  margin: 0 auto;
   flex-direction: column;
   gap: 24px;
+  margin-bottom: 280px auto;
 }
 
 .navItem {
   text-decoration: none;
   color: var(--text-gray);
+  font: var(--font-family);
   position: relative;
+  font-weight: 500;
+font-size: 14px;
+line-height: 129%;
 }
-
+.navItem:active {
+    display: inline-block;
+}
+ 
 .active {
   color: var(--foreground);
   position: relative;
+  text-decoration: none;
 }
 
 .active::after {
@@ -48,14 +66,18 @@
   position: absolute;
   bottom: -6px;
   left: 0;
-  width: 100%;
   height: 3px;
   background: #4f92f7;
+  width: 100%;
   border-radius: 4px;
 }
 
 .bottom {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+ margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+     .sidebar {
+    display: none;
+  }
 }

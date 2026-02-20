@@ -16,13 +16,12 @@ export default function MobileSidebar({
   isOpen,
   onClose,
   pathname,
-  userInitial,
   onLogout,
 }: Props) {
   return (
     <div className={`${css.sidebar} ${isOpen ? css.open : ""}`}>
       <button className={css.closeBtn} onClick={onClose}>
-       <svg className={css.logoIcon}>
+       <svg className={css.closeBtnIcon}>
           <use href="/symbol-defs.svg#icon-x" />
         </svg>
       </button>
@@ -46,11 +45,12 @@ export default function MobileSidebar({
       </nav>
 
       <div className={css.bottom}>
-        <div className={css.avatar}>{userInitial}</div>
         <DarkButton onClick={onLogout}>
           Log out
         </DarkButton>
       </div>
+        
+      
     </div>
   )
 }

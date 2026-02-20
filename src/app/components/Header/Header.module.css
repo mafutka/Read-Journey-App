@@ -28,6 +28,11 @@
 }
 
 @media (min-width: 1440px) {
+  .logo {
+    display: flex;
+    gap: 4px;
+  }
+
   .logoText {
     display: block;
     font-weight: 700;
@@ -37,7 +42,12 @@
     letter-spacing: 0.02em;
   }
 }
-
+.navigationDesktop {
+  display: none;
+}
+.userBar {
+  display: none;
+}
 @media (min-width: 768px) {
   .navigationDesktop {
     display: flex;
@@ -85,6 +95,9 @@ background: var(--input-background);
 border: 1px solid rgba(249, 249, 249, 0.2);
 
 }
+.button {
+  display: none;
+}
 .burger {
   border: none;
   background: inherit;
@@ -94,10 +107,23 @@ border: 1px solid rgba(249, 249, 249, 0.2);
   .burger {
  display: none;
 }
+.button {
+  display: block;
+}
 }
 
 .burgerIcon {
   width: 28px;
   height: 28px;
   stroke-width: 2px;
+}
+.mobileRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .mobileRight {
+    display: none;
+  }
 }
