@@ -20,9 +20,9 @@ export default function ProtectedLayout({
   }, [])
 
   return (
-    <>
+    <div className={css.container}>
       <Header />
       <main className={css.main}>{children}</main>
-    </>
+    </div>
   )
 }
