@@ -1,7 +1,10 @@
+import Dashboard from "@/app/components/Dashboard/Dashboard"
+
 export default function RecommendedPage() {
-    return (
-        <div>
-            <p>Recommended page</p>
-        </div>
-    )
+  return (
+    <>
+      <Dashboard />
+      {/* <RecommendedBooks /> */}
+    </>
+  )
 }
