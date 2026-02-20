@@ -5,6 +5,8 @@
   --text-gray: #686868;
   --red: #e90516;
   --abook: rgba(227, 227, 227, 0.5);
+  --font-family: "Gilroy", sans-serif;
+  --second-family: "SF Pro Text", sans-serif;
 }
 
 
@@ -43,4 +45,19 @@ select:-webkit-autofill {
   -webkit-text-fill-color: var(--foreground);
   transition: background-color 5000s ease-in-out 0s;
   box-shadow: 0 0 0px 1000px var(--input-background) inset;
+}
+h2 {
+  font-family: var(--font-family);
+font-weight: 700;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: -0.02em;
+}
+
+p {
+  font-family: var(--font-family);
+font-weight: 500;
+font-size: 14px;
+line-height: 129%;
+letter-spacing: -0.02em;
 }

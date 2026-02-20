@@ -3,6 +3,7 @@
 import Header from "../components/Header/Header"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import css from "./protected.module.css"
 
 export default function ProtectedLayout({
   children,
@@ -21,7 +22,7 @@ export default function ProtectedLayout({
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className={css.main}>{children}</main>
     </>
   )
 }

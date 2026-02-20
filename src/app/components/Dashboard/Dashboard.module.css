@@ -1,5 +1,54 @@
+.top {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
 .filters {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 20px;
+}
+.startBlock {
+  display: flex;
+  flex-direction: column;
+  background: var(--input-background);
+  border-radius: 12px;
+  padding: 20px;
+  gap: 20px;
+}
+
+.step {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.circle {
+  width: 40px;
+  height: 40px;
+   min-width: 40px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 100%;
+  color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--foreground);
+}
+.bottom {
+  display: flex;
+  justify-content: space-between;
+}
+.gray {
+  color: var(--text-gray);
+}
+.link {
+  color: var(--text-gray);
+}
+.arrowIcon {
+  width: 24px;
+  height: 24px;
 }
