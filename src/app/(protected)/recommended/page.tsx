@@ -1,11 +1,11 @@
 import Dashboard from "@/app/components/Dashboard/Dashboard"
-import RecommendedBooks from "../../components/RecommendedBooks/RecommendedBooks"
+import Recommended from "../../components/RecommendedBooks/Recommended"
 
 export default function RecommendedPage() {
   return (
     <>
       <Dashboard />
-      <RecommendedBooks />
+      <Recommended />
     </>
   )
 }

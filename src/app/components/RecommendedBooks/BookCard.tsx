@@ -1,4 +1,4 @@
-import css from "./RecommendedBooks.module.css"
+import css from "./Recommended.module.css"
 import { Book } from "../../../services/books/booksApi"
 
 type Props = {
@@ -9,8 +9,8 @@ type Props = {
 export default function BookCard({ book, onClick }: Props) {
   return (
     <div onClick={onClick} className={css.card}>
-      <img src={book.imageUrl} alt={book.title} />
-      <h3>{book.title}</h3>
+      <img className={css.bookImj} src={book.imageUrl} alt={book.title} />
+      <h2>{book.title}</h2>
       <p>{book.author}</p>
     </div>
   )

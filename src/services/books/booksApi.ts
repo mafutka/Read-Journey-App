@@ -1,3 +1,5 @@
+const BASE = "https://readjourney.b.goit.study"
+
 export type Book = {
   _id: string
   title: string
@@ -17,8 +19,14 @@ export async function getRecommendedBooks(
   page: number,
   limit: number = 2
 ): Promise<RecommendResponse> {
+    const token = localStorage.getItem("token")
   const res = await fetch(
-    `/books/recommend?page=${page}&limit=${limit}`
+    `${BASE}/api/books/recommend?page=${page}&limit=${limit}`,
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
   )
 
   if (!res.ok) {

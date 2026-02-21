@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import css from "./RecommendedBooks.module.css"
+import css from "./Modal.module.css"
 import { Book } from "../../../services/books/booksApi"
 
 type Props = {

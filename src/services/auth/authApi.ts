@@ -56,4 +56,5 @@ export async function logoutUser() {
     const result = await response.json()
     throw new Error(result.message || "Logout failed")
   }
+  localStorage.removeItem("token")
 }
