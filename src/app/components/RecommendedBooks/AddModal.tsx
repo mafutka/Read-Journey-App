@@ -12,6 +12,7 @@ type Props = {
 export default function AddModal({ book, onClose }: Props) {
   return (
     <Modal onClose={onClose}>
+      <div className={css.modalContainer}>
       <img
         className={css.image}
         src={book.imageUrl}
@@ -24,6 +25,7 @@ export default function AddModal({ book, onClose }: Props) {
       <button className={css.addBtn}>
         Add to library
       </button>
+      </div>
     </Modal>
   )
 }

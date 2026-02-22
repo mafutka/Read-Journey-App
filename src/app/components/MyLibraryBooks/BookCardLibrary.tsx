@@ -1,14 +1,13 @@
-import css from "./Recommended.module.css"
+import css from "./BookCardLibrary.module.css"
 import { Book } from "../../../services/books/booksApi"
 
 type Props = {
   book: Book
-  onClick?: () => void
 }
 
-export default function BookCard({ book, onClick, }: Props) {
+export default function BookCardLibrary({ book, }: Props) {
   return (
-    <div onClick={onClick} className={css.card} style={{ cursor: onClick ? "pointer" : "default" }}>
+    <div className={css.card}>
       <img className={css.bookImj} src={book.imageUrl} alt={book.title} />
       <div className={css.textCard}>
       <h3>{book.title}</h3>

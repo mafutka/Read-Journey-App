@@ -1,15 +1,13 @@
 "use client"
 
 import {Card} from "../../components/ui/Card"
-import Filters from "./Filters"
-import StartWorkoutBlock from "./StartWorkoutBlock"
 
+export default function Dashboard({children, 
 
-export default function Dashboard() {
+}: {children: React.ReactNode}) {
   return (
     <Card>
-      <Filters />
-      <StartWorkoutBlock />
+      {children}
     </Card>
   )
 }

@@ -1,6 +1,9 @@
+.modalContainer {
+    
+}
 .image {
      width: 100%;
-  height: 213px;
-  object-fit: cover;
+  height: auto;    
+  object-fit: contain; 
   border-radius: 8px;
 }

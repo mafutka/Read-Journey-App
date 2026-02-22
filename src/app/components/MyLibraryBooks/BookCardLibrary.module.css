@@ -1,0 +1,40 @@
+.card {
+     display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 71px;
+    cursor: pointer;
+}
+.bookImj {}
+.imageUrl {}
+.title {
+    font-size: 10px;
+    white-space: nowrap;      
+  overflow: hidden;        
+  text-overflow: ellipsis;
+}
+.author {
+    font-weight: 500;
+font-size: 10px;
+line-height: 120%;
+color: var(--text-gray);
+}
+
+/* .bookImj {
+    width: 100%;
+    height: 208px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.textCard {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.author {
+    font-weight: 500;
+font-size: 10px;
+line-height: 120%;
+text-decoration: underline;
+color: var(--text-gray);
+} */
