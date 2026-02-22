@@ -1,14 +1,24 @@
-
-.form {
-    min-height: 411px;
+.container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 10px;
+}
+@media (min-width: 1440px) {
+    .container {
+        flex-direction: row;    
+        gap: 16px;
+    }
+}
+.form {
+    min-height: 411px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 @media (min-width: 768px) {
     .form {
         padding: 20px 44px;
-        min-height: 960px;
+        height: 960px;
 }
 }
 @media (min-width: 1440px) {
@@ -62,7 +72,12 @@
     display: flex;
     gap: 14px;
     align-items: center;
-    margin-bottom: 20px;
+    margin-top: auto;
+}
+@media (min-width: 768px) {
+    .actions {
+        margin-bottom: 214px;
+    }
 }
 .link {
     color: var(--text-gray);
@@ -70,4 +85,29 @@
 .link:hover,
 .link:focus {
     color: var(--foreground);
+}
+.imageCard {
+    display: flex;
+    justify-content: center;
+    background-color: var(--background);
+    border-radius: 30px;
+    width: 100%;
+    padding: 20px;
+}
+@media (min-width: 768px) {
+    .imageCard {display: none;}
+}
+
+@media (min-width: 1440px) {
+    .imageCard {
+        display: block;
+    }
+    .formWrapper,
+  .imageCard {
+    flex: 1;
+    height: 736px;
+  }
+    .img {
+        width: 405px;
+    }
 }

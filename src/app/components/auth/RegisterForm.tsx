@@ -70,7 +70,8 @@ export const RegisterForm = () => {
             <p>{methods.formState.errors.email?.message}</p>
           </div>
           <div className={css.field}>
-            <Input name="password" label="Password:" type="password" />
+            <Input name="password" label="Password:" type="password" 
+            />
             <p>{methods.formState.errors.password?.message}</p>
           </div>
         </div>
