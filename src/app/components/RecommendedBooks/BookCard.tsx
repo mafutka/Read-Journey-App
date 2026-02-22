@@ -10,8 +10,10 @@ export default function BookCard({ book, onClick }: Props) {
   return (
     <div onClick={onClick} className={css.card}>
       <img className={css.bookImj} src={book.imageUrl} alt={book.title} />
-      <h2>{book.title}</h2>
-      <p>{book.author}</p>
+      <div className={css.textCard}>
+      <h3>{book.title}</h3>
+      <p className={css.author}>{book.author}</p>
+      </div>
     </div>
   )
 }

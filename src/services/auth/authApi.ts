@@ -42,19 +42,17 @@ export async function loginUser(data: {
 export async function logoutUser() {
   const token = localStorage.getItem("token")
 
-  const response = await fetch(
-    "https://readjourney.b.goit.study/api/users/signout",
-    {
+  try {
+    await fetch(`${BASE}/api/users/signout`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-  )
-
-  if (!response.ok) {
-    const result = await response.json()
-    throw new Error(result.message || "Logout failed")
+    })
+  } catch (error) {
+    console.error("Logout request failed")
   }
+
   localStorage.removeItem("token")
 }
+

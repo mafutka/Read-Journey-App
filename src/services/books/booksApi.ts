@@ -8,26 +8,23 @@ export type Book = {
   totalPages: number
 }
 
-type RecommendResponse = {
-  results: Book[]
-  totalPages: number
-  page: number
-  perPage: number
-}
+export async function getRecommendedBooks(page: number, limit = 2) {
+  const token = localStorage.getItem("token")
 
-export async function getRecommendedBooks(
-  page: number,
-  limit: number = 2
-): Promise<RecommendResponse> {
-    const token = localStorage.getItem("token")
   const res = await fetch(
     `${BASE}/api/books/recommend?page=${page}&limit=${limit}`,
     {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
   )
+
+  if (res.status === 401) {
+    localStorage.removeItem("token")
+    window.location.href = "/login"
+    return
+  }
 
   if (!res.ok) {
     throw new Error("Failed to fetch books")
@@ -35,3 +32,4 @@ export async function getRecommendedBooks(
 
   return res.json()
 }
+

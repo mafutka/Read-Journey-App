@@ -17,7 +17,7 @@ export default function ProtectedLayout({
     if (!token) {
       router.push("/login")
     }
-  }, [])
+  }, [router])
 
   return (
     <div className={css.container}>

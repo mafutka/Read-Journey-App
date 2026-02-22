@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import css from "./Recommended.module.css"
 
 import BookCard from "../RecommendedBooks/BookCard"
-import Modal from "../RecommendedBooks/Modal"
+import AddModal from "./AddModal"
 import { getRecommendedBooks, Book } from "../../../services/books/booksApi"
 
 export default function RecommendedPage() {
@@ -30,19 +30,26 @@ export default function RecommendedPage() {
   return (
     <>
       <div className={css.header}>
-        <button
+        <h2>Recommended</h2>
+        <div className={css.buttons}>
+        <button className={css.scrollBtn}
           disabled={page === 1}
           onClick={() => setPage((p) => p - 1)}
         >
-          ←
+          <svg className={css.icon}>
+            <use href="/symbol-defs.svg#icon-chevron-left" />
+          </svg>
         </button>
 
-        <button
+        <button className={css.scrollBtn}
           disabled={page === totalPages}
           onClick={() => setPage((p) => p + 1)}
         >
-          →
+          <svg className={css.icon}>
+            <use href="/symbol-defs.svg#icon-chevron-right" />
+          </svg>
         </button>
+        </div>
       </div>
 
       <div className={css.list}>
@@ -56,7 +63,7 @@ export default function RecommendedPage() {
       </div>
 
       {selectedBook && (
-        <Modal
+        <AddModal
           book={selectedBook}
           onClose={() => setSelectedBook(null)}
         />

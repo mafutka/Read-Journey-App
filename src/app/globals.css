@@ -54,6 +54,13 @@ line-height: 100%;
 letter-spacing: -0.02em;
 }
 
+h3 {
+  font-weight: 700;
+font-size: 14px;
+line-height: 129%;
+letter-spacing: -0.02em;
+}
+
 p {
   font-family: var(--font-family);
 font-weight: 500;
