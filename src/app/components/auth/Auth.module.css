@@ -1,33 +1,43 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  gap: 10px;
 }
 @media (min-width: 1440px) {
-    .container {
-        flex-direction: row;    
-        gap: 16px;
-    }
+  .container {
+   min-height: 100vh;
+  }
+}
+@media (min-width: 1440px) {
+  .container {
+    flex-direction: row;
+    gap: 16px;
+  }
+}
+.formWrapper {
+  flex: 1;
+  display: flex;
 }
 .form {
-    min-height: 411px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  min-height: 411px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
+
 @media (min-width: 768px) {
-    .form {
-        padding: 20px 44px;
-        height: 960px;
-}
+  .form {
+     padding: 20px 44px;
+  }
 }
 @media (min-width: 1440px) {
-    .form {
-        min-height: 736px;
-}
+  .form {
+    min-height: 736px;
+  }
 }
 .logo {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 .logoIcon {
   width: 42px;
@@ -36,78 +46,91 @@
 
 .logoText {
   display: none;
-  
 }
 @media (min-width: 768px) {
-    .logo {
+  .logo {
     margin-bottom: 150px;
-}
-    .logoText {
-  display: inline;
-}
+  }
+  .logoText {
+    display: inline;
+  }
 }
 .title {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .abook {
-    color: var(--abook);
+  color: var(--abook);
 }
 .inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .field {
   display: flex;
   flex-direction: column;
-
 }
 
 .field p {
   font-size: 12px;
   color: var(--red);
-
 }
 .actions {
-    display: flex;
-    gap: 14px;
-    align-items: center;
-    margin-top: auto;
-}
-@media (min-width: 768px) {
-    .actions {
-        margin-bottom: 214px;
-    }
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .link {
-    color: var(--text-gray);
+   font-weight: 500;
+font-size: 12px;
+  color: var(--text-gray);
 }
 .link:hover,
 .link:focus {
-    color: var(--foreground);
-}
-.imageCard {
-    display: flex;
-    justify-content: center;
-    background-color: var(--background);
-    border-radius: 30px;
-    width: 100%;
-    padding: 20px;
+  color: var(--foreground);
 }
 @media (min-width: 768px) {
-    .imageCard {display: none;}
+  .actions {
+    
+  }
+  .link {
+   font-weight: 500;
+font-size: 14px;
+  color: var(--text-gray);
+}
+}
+
+.imageCard {
+  display: flex;
+  justify-content: center;
+  background-color: var(--background);
+  border-radius: 30px;
+  padding: 20px;
+  width: 100%;
+}
+.img {
+    margin-top: auto;
+}
+@media (min-width: 768px) {
+  .imageCard {
+    display: none;
+  }
 }
 
 @media (min-width: 1440px) {
-    .imageCard {
-        display: block;
-    }
-    .formWrapper,
+  .imageCard {
+    display: flex;
+    align-items: center;
+  
+  }
+  .formWrapper,
   .imageCard {
     flex: 1;
     height: 736px;
   }
-    .img {
-        width: 405px;
-    }
+  .img {
+    width: 405px;
+  }
 }

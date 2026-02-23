@@ -9,7 +9,7 @@ import {
   LoginFormData,
 } from "../../../services/auth/authValidation"
 import { useRouter } from "next/navigation"
-import {loginUser} from "../../../services/auth/authApi"
+import { loginUser } from "../../../services/auth/authApi"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
 import css from "./Auth.module.css"
@@ -17,7 +17,7 @@ import css from "./Auth.module.css"
 export const LoginForm = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string>("")
- const methods = useForm<LoginFormData>({
+  const methods = useForm<LoginFormData>({
     mode: "onTouched",
     resolver: yupResolver(loginSchema),
   })
@@ -36,58 +36,60 @@ export const LoginForm = () => {
         router.push("/recommended")
       }
     } catch (error) {
-        if(error instanceof Error) {
-          setErrorMessage(error.message)
-        } else {
-          setErrorMessage("Unexpected error occurred")
-        }
-     
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage("Unexpected error occurred")
+      }
     }
   }
 
   return (
-     <>
-        {errorMessage && (
-        <div className={css.errorMessage}>
-          {errorMessage}
-        </div>
-      )}
-     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className={css.form}>
-        <div className={css.top}>
+    <>
+      {errorMessage && <div className={css.errorMessage}>{errorMessage}</div>}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} className={css.form}>
+          <div className={css.top}>
             <div className={css.logo}>
-          <svg className={css.logoIcon}>
-            <use href="/symbol-defs.svg#icon-icon" />
-          </svg>
-          <p className={css.logoText}> READ JOURNEY</p>
-        </div>
-        <h1 className={css.title}>
-          Expand your mind, reading{" "}
-          <span className={css.abook}>a book</span>{" "}
-        </h1>
+              <svg className={css.logoIcon}>
+                <use href="/symbol-defs.svg#icon-icon" />
+              </svg>
+              <p className={css.logoText}> READ JOURNEY</p>
+            </div>
+            <h1 className={css.title}>
+              Expand your mind, reading{" "}
+              <span className={css.abook}>a book</span>{" "}
+            </h1>
 
-        <div className={css.inputs}>
-          <div className={css.field}>
-            <Input name="email" label="Email:" />
-            <p>{methods.formState.errors.email?.message}</p>
+            <div className={css.inputs}>
+              <div className={css.field}>
+                <Input name="email" label="Email:" />
+                <p>{methods.formState.errors.email?.message}</p>
+              </div>
+              <div className={css.field}>
+                <Input
+                  name="password"
+                  label="Password:"
+                  type="password"
+                  icon={
+                    <svg width="18" height="18">
+                      <use href="/symbol-defs.svg#icon-eye-off" />
+                    </svg>
+                  }
+                />
+                <p>{methods.formState.errors.password?.message}</p>
+              </div>
+            </div>
           </div>
-          <div className={css.field}>
-            <Input name="password" label="Password:" type="password" />
-            <p>{methods.formState.errors.password?.message}</p>
-          </div>
-        </div>
-        </div>
-        
-        <div className={css.actions}>
-          <Button type="submit">Log in</Button>
-          <Link href="/register" className={css.link}>
-          Don’t have an account?
-        </Link>
-        </div>
 
-        
-      </form>
-    </FormProvider></>
-    
+          <div className={css.actions}>
+            <Button type="submit">Log in</Button>
+            <Link href="/register" className={css.link}>
+              Don’t have an account?
+            </Link>
+          </div>
+        </form>
+      </FormProvider>
+    </>
   )
 }

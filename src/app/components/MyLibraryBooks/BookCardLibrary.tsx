@@ -10,7 +10,7 @@ export default function BookCardLibrary({ book, }: Props) {
     <div className={css.card}>
       <img className={css.bookImj} src={book.imageUrl} alt={book.title} />
       <div className={css.textCard}>
-      <h3>{book.title}</h3>
+      <h3 className={css.title}>{book.title}</h3>
       <p className={css.author}>{book.author}</p>
       </div>
     </div>

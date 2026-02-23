@@ -12,7 +12,13 @@
 .wrapper:focus-within {
   border: 1px solid rgba(249, 249, 249, 0.1);
 }
-
+.error {
+  border: 1px solid var(--red);
+}
+.error:hover,
+.error:focus-within {
+  border: 1px solid var(--red);
+}
 .label {
   color: var(--text-gray);
   margin-right: 8px;
@@ -37,3 +43,4 @@ font-size: 12px;
 line-height: 133%;
 color: var(--foreground);
 }
+.icon {}

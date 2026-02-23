@@ -1,9 +1,14 @@
 .card {
-     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 71px;
-    cursor: pointer;
+    width: 100px;
+  flex-shrink: 0;  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+
+}
+.list {
+    
 }
 .bookImj {}
 .imageUrl {}
@@ -20,7 +25,7 @@ line-height: 120%;
 color: var(--text-gray);
 }
 
-/* .bookImj {
+.bookImj {
     width: 100%;
     height: 208px;
     object-fit: cover;
@@ -37,4 +42,79 @@ font-size: 10px;
 line-height: 120%;
 text-decoration: underline;
 color: var(--text-gray);
-} */
+}
+
+/* My library styles */
+
+.libraryContainer {
+    min-height: 518px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.select {
+    background-color: var(--input-background);
+  color: var(--foreground);
+  border: 1px solid rgba(249, 249, 249, 0.1);
+  border-radius: 12px;
+  padding: 10px 14px;
+  width: 120px; 
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  outline: none;
+}
+.selectWrapper {
+  position: relative;
+  width: 140px;
+}
+
+.arrow {
+  position: absolute;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  fill: var(--foreground);
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 274px;
+height: 186px;
+margin: 110px auto;
+    
+}
+.imageBox {
+    width: 130px;
+height: 130px;
+border-radius: 100%;
+background-color: var(--input-background);
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.emptyImage {
+
+}
+.emptyText {
+    font-family: var(--font-family);
+    font-weight: 500;
+font-size: 14px;
+line-height: 129%;
+letter-spacing: -0.02em;
+text-align: center;
+}
+.gray {color: var(--text-gray);}
+

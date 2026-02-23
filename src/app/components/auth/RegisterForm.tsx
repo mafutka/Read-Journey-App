@@ -17,7 +17,7 @@ import css from "./Auth.module.css"
 export const RegisterForm = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string>("")
-    const methods = useForm<RegisterFormData>({
+  const methods = useForm<RegisterFormData>({
     mode: "onTouched",
     resolver: yupResolver(registerSchema),
   })
@@ -38,50 +38,58 @@ export const RegisterForm = () => {
         router.push("/recommended")
       }
     } catch (error) {
-  if (error instanceof Error) {
-    setErrorMessage(error.message)
-  } else {
-    setErrorMessage("Something went wrong")
-  }
-}
+      if (error instanceof Error) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage("Something went wrong")
+      }
+    }
   }
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} className={css.form}>
         <div className={css.top}>
-            <div className={css.logo}>
-          <svg className={css.logoIcon}>
-            <use href="/symbol-defs.svg#icon-icon" />
-          </svg>
-          <p className={css.logoText}> READ JOURNEY</p>
-        </div>
-        <h1 className={css.title}>
-          Expand your mind, reading{" "}
-          <span className={css.abook}>a book</span>{" "}
-        </h1>
-        <div className={css.inputs}>
-          <div className={css.field}>
-            <Input name="name" label="Name:" />
-            <p>{methods.formState.errors.name?.message}</p>
+          <div className={css.logo}>
+            <svg className={css.logoIcon}>
+              <use href="/symbol-defs.svg#icon-icon" />
+            </svg>
+            <p className={css.logoText}> READ JOURNEY</p>
           </div>
-          <div className={css.field}>
-            <Input name="email" label="Email:" />
-            <p>{methods.formState.errors.email?.message}</p>
-          </div>
-          <div className={css.field}>
-            <Input name="password" label="Password:" type="password" 
-            />
-            <p>{methods.formState.errors.password?.message}</p>
+          <h1 className={css.title}>
+            Expand your mind, reading{" "}
+            <span className={css.abook}>a book</span>{" "}
+          </h1>
+          <div className={css.inputs}>
+            <div className={css.field}>
+              <Input name="name" label="Name:" />
+              <p>{methods.formState.errors.name?.message}</p>
+            </div>
+            <div className={css.field}>
+              <Input name="email" label="Email:" />
+              <p>{methods.formState.errors.email?.message}</p>
+            </div>
+            <div className={css.field}>
+              <Input
+                name="password"
+                label="Password:"
+                type="password"
+                icon={
+                  <svg width="18" height="18">
+                    <use href="/symbol-defs.svg#icon-eye-off" />
+                  </svg>
+                }
+              />
+              <p>{methods.formState.errors.password?.message}</p>
+            </div>
           </div>
         </div>
-        </div>
-        
+
         <div className={css.actions}>
           <Button type="submit">Registration</Button>
-        <Link href="/login" className={css.link}>
-          Already have an account?
-        </Link>
+          <Link href="/login" className={css.link}>
+            Already have an account?
+          </Link>
         </div>
         {errorMessage && <p className={css.errorMessage}>{errorMessage}</p>}
       </form>
