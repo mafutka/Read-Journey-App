@@ -1,13 +1,13 @@
-// "use client"
+"use client"
 
-// import Dashboard from "@/components/dashboard/Dashboard"
-// import MyBook from "@/components/MyBook"
+import Dashboard from "../../components/reading/Dashboard"
+import MyBook from "../../components/reading/MyBook"
 
-// export default function ReadingPage() {
-//   return (
-//     <>
-//       <Dashboard />
-//       <MyBook />
-//     </>
-//   )
-// }
+export default function ReadingPage() {
+  return (
+    <>
+      <Dashboard />
+      <MyBook />
+    </>
+  )
+}

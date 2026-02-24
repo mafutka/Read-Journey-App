@@ -2,19 +2,21 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useAuthStore } from "@/store/useAuthStore"
 
 export default function Home() {
   const router = useRouter()
+  const { token, isInitialized } = useAuthStore()
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    if (!isInitialized) return
 
     if (token) {
       router.replace("/recommended")
     } else {
       router.replace("/login")
     }
-  }, [router])
+  }, [token, isInitialized, router])
 
   return null
 }

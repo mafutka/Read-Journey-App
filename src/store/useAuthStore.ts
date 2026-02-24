@@ -30,9 +30,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   initAuth: () => {
     const token = localStorage.getItem("token")
-    set({
-      token,
-      isInitialized: true,
-    })
+    set({ token, isInitialized: true })
   },
 }))

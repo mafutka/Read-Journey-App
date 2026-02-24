@@ -1,4 +1,6 @@
 import { create } from "zustand"
+import { UserBook } from "@/services/books/booksApi"
+
 
 interface ReadingSession {
   _id: string
@@ -11,6 +13,7 @@ interface ReadingSession {
 }
 
 interface ReadingState {
+  activeBook: UserBook | null
   bookId: string | null
   totalPages: number
   currentPage: number
@@ -19,6 +22,7 @@ interface ReadingState {
   sessions: ReadingSession[]
   isCompleted: boolean
 
+setActiveBook: (book: UserBook) => void 
   setBook: (bookId: string, totalPages: number) => void
   startReadingLocal: (page: number) => void
   finishReadingLocal: (page: number, session: ReadingSession) => void
@@ -26,6 +30,7 @@ interface ReadingState {
 }
 
 export const useReadingStore = create<ReadingState>((set, get) => ({
+  activeBook: null,
   bookId: null,
   totalPages: 0,
   currentPage: 0,
@@ -34,6 +39,12 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   sessions: [],
   isCompleted: false,
 
+  setActiveBook: (book) =>
+    set({
+      activeBook: book,
+      bookId: book._id,
+      totalPages: book.totalPages,
+    }),
   setBook: (bookId, totalPages) =>
     set({ bookId, totalPages }),
 

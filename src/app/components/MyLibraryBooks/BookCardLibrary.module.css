@@ -6,8 +6,21 @@
   cursor: pointer;
 }
 .list {
-    display: flex;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .list {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 .bookImj {}
 .imageUrl {}
