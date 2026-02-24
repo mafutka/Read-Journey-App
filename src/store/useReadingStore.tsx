@@ -20,10 +20,9 @@ interface ReadingState {
   isCompleted: boolean
 
   setBook: (bookId: string, totalPages: number) => void
-  startReading: (page: number) => void
-  stopReading: (page: number, session: ReadingSession) => void
-  deleteSession: (id: string) => void
-  calculateProgress: () => void
+  startReadingLocal: (page: number) => void
+  finishReadingLocal: (page: number, session: ReadingSession) => void
+  deleteSessionLocal: (id: string) => void
 }
 
 export const useReadingStore = create<ReadingState>((set, get) => ({
@@ -38,13 +37,13 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   setBook: (bookId, totalPages) =>
     set({ bookId, totalPages }),
 
-  startReading: (page) =>
+  startReadingLocal: (page) =>
     set({
       currentPage: page,
       isReading: true,
     }),
 
-  stopReading: (page, session) => {
+  finishReadingLocal: (page, session) => {
     const total = get().totalPages
     const progress = Math.round((page / total) * 100)
 
@@ -57,14 +56,8 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
     }))
   },
 
-  deleteSession: (id) =>
+  deleteSessionLocal: (id) =>
     set((state) => ({
       sessions: state.sessions.filter((s) => s._id !== id),
     })),
-
-  calculateProgress: () => {
-    const { currentPage, totalPages } = get()
-    const progress = Math.round((currentPage / totalPages) * 100)
-    set({ progress })
-  },
 }))
