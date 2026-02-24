@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
+import { useAuthStore } from "../../../store/useAuthStore"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   registerSchema,
@@ -17,6 +18,7 @@ import css from "./Auth.module.css"
 export const RegisterForm = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string>("")
+  const setToken = useAuthStore((s) => s.setToken)
   const methods = useForm<RegisterFormData>({
     mode: "onTouched",
     resolver: yupResolver(registerSchema),
@@ -31,10 +33,10 @@ export const RegisterForm = () => {
         email: data.email,
         password: data.password,
       })
+      
 
       if (result.token) {
-        localStorage.setItem("token", result.token)
-
+        setToken(result.token)
         router.push("/recommended")
       }
     } catch (error) {

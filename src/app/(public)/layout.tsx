@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { AuthLayout } from "../components/auth/AuthLayout"
+import { useAuthStore } from "@/store/useAuthStore"
 
 export default function PublicLayout({
   children,
@@ -10,14 +11,15 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const { token, isInitialized } = useAuthStore()
 
-  useEffect(() => {
-    const token = localStorage.getItem("token")
+useEffect(() => {
+  if (isInitialized && token) {
+    router.replace("/recommended")
+  }
+}, [token, isInitialized, router])
 
-    if (token) {
-      router.replace("/recommended")
-    }
-  }, [router])
+if (!isInitialized) return null
 
   return <AuthLayout>{children}</AuthLayout>
 }

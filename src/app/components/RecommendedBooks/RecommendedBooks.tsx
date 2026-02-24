@@ -11,21 +11,40 @@ export default function RecommendedPage() {
   const [books, setBooks] = useState<Book[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [limit, setLimit] = useState(2)
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
+
+useEffect(() => {
+  const updateLimit = () => {
+    const width = window.innerWidth
+
+    if (width >= 1440) {
+      setLimit(10) 
+    } else if (width >= 768) {
+      setLimit(8) 
+    } else {
+      setLimit(2) 
+    }
+  }
+
+  updateLimit()
+  window.addEventListener("resize", updateLimit)
+
+  return () => window.removeEventListener("resize", updateLimit)
+}, [])
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const data = await getRecommendedBooks(page, 2)
+        const data = await getRecommendedBooks(page, limit)
         setBooks(data.results)
         setTotalPages(data.totalPages)
       } catch (error) {
         console.error(error)
       }
     }
-
     fetchBooks()
-  }, [page])
+  }, [page, limit])
 
   return (
     <>

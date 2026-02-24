@@ -1,14 +1,25 @@
 .list {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
+@media (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1440px) {
+  .list {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
 .card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 160px;
+  width: 137px;
   cursor: pointer;
 }
 .card h3 {

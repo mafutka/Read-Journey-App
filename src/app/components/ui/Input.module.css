@@ -44,3 +44,9 @@ line-height: 133%;
 color: var(--foreground);
 }
 .icon {}
+
+@media (min-width: 768px) {
+  .wrapper {
+    width: 472px;
+  }
+}

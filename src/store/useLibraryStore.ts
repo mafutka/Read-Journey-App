@@ -6,6 +6,7 @@ import {
   deleteBook,
   UserBook,
 } from "@/services/books/booksApi"
+import toast from "react-hot-toast"
 
 type AddCustomBookData = {
   title: string
@@ -61,8 +62,9 @@ export const useLibraryStore = create<LibraryState>((set) => ({
       set((state) => ({
         books: [...state.books, newBook],
       }))
+      toast.success("Book added successfully!")
     } catch (e) {
-      console.error("Add custom book error:", e)
+      toast.error("Something went wrong")
     }
   },
 

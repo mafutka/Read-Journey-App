@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
+import { useAuthStore } from "@/store/useAuthStore"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   loginSchema,
@@ -17,6 +18,7 @@ import css from "./Auth.module.css"
 export const LoginForm = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string>("")
+  const setToken = useAuthStore((s) => s.setToken)
   const methods = useForm<LoginFormData>({
     mode: "onTouched",
     resolver: yupResolver(loginSchema),
@@ -32,7 +34,7 @@ export const LoginForm = () => {
       })
 
       if (result.token) {
-        localStorage.setItem("token", result.token)
+        setToken(result.token)
         router.push("/recommended")
       }
     } catch (error) {

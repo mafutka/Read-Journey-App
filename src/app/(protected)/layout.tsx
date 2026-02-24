@@ -3,6 +3,7 @@
 import Header from "../components/Header/Header"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { useAuthStore } from "@/store/useAuthStore"
 import css from "./protected.module.css"
 
 export default function ProtectedLayout({
@@ -11,13 +12,16 @@ export default function ProtectedLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
+   const { token, isInitialized } = useAuthStore()
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    if (!token) {
-      router.push("/login")
+    if (isInitialized && !token) {
+      router.replace("/login")
     }
-  }, [router])
+  }, [token, isInitialized, router])
+
+  if (!isInitialized) return null
+  if (!token) return null
 
   return (
     <div className={css.container}>

@@ -61,6 +61,11 @@
 .abook {
   color: var(--abook);
 }
+@media (min-width: 768px) {
+  .title {
+   width: 230px;
+  }
+}
 .inputs {
   display: flex;
   flex-direction: column;

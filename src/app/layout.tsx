@@ -1,4 +1,6 @@
+
 import type {Metadata} from "next";
+import AuthInitializer from "../app/components/AuthInitializer"
 import css from "./layout.module.css"
 import "./globals.css";
 
@@ -13,9 +15,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body className={css.app}>
+        <AuthInitializer />
           {children}
       </body>
     </html>

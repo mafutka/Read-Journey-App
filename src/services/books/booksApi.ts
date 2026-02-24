@@ -89,7 +89,7 @@ export async function getUserBooks(): Promise<UserBook[]> {
 export async function deleteBook(id: string) {
   const token = localStorage.getItem("token")
 
-  const res = await fetch(`${BASE}/api/books/remove/${id}`, {
+  const res = await fetch(`${BASE}/api/books/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
