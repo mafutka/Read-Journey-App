@@ -11,7 +11,18 @@ export default function RecommendedPage() {
   const [books, setBooks] = useState<Book[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [limit, setLimit] = useState(2)
+  const getInitialLimit = () => {
+  if (typeof window === "undefined") return 2
+
+  const width = window.innerWidth
+
+  if (width >= 1440) return 10
+  if (width >= 768) return 8
+  return 2
+}
+
+const [limit, setLimit] = useState(getInitialLimit)
+
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
 useEffect(() => {

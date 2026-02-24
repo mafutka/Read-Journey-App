@@ -50,8 +50,9 @@ export const useLibraryStore = create<LibraryState>((set) => ({
       set((state) => ({
         books: [...state.books, newBook],
       }))
-    } catch (e) {
-      console.error("Add book by id error:", e)
+      toast.success("Book added successfully!")
+    } catch {
+     toast.error("Something went wrong")
     }
   },
 

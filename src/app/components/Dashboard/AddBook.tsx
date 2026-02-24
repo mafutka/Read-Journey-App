@@ -13,8 +13,7 @@ export default function AddBook() {
   const [author, setAuthor] = useState("")
   const [pages, setPages] = useState("")
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> =
-    async (e) => {
+  const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
       if (!title || !author || !pages) return

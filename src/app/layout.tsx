@@ -1,5 +1,6 @@
 
 import type {Metadata} from "next";
+import { Toaster } from "react-hot-toast";
 import AuthInitializer from "../app/components/AuthInitializer"
 import css from "./layout.module.css"
 import "./globals.css";
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={css.app}>
         <AuthInitializer />
+        <Toaster position="top-right" />
           {children}
       </body>
     </html>

@@ -36,7 +36,6 @@ export async function getRecommendedBooks(page: number, limit = 2) {
 
   if (res.status === 401) {
     localStorage.removeItem("token")
-    window.location.href = "/login"
     return
   }
 
