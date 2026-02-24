@@ -89,7 +89,7 @@ export async function getUserBooks(): Promise<UserBook[]> {
 export async function deleteBook(id: string) {
   const token = localStorage.getItem("token")
 
-  const res = await fetch(`${BASE}/api/books/${id}`, {
+  const res = await fetch(`${BASE}/api/books/remove/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -102,5 +102,27 @@ export async function deleteBook(id: string) {
 
   return res.json()
 }
+export async function addBookToLibrary(bookId: string): Promise<UserBook> {
+  const token = localStorage.getItem("token")
 
+  const res = await fetch(`${BASE}/api/books/add/${bookId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (res.status === 401) {
+    localStorage.removeItem("token")
+    window.location.href = "/login"
+    throw new Error("Unauthorized")
+  }
+
+  if (!res.ok) {
+    throw new Error("Failed to add book")
+  }
+
+  const data = await res.json()
+  return data
+}
 

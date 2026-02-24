@@ -1,0 +1,32 @@
+.card {
+    display: flex;
+    flex-direction: column;
+
+}
+.image{border-radius: 8px;
+width: 137px;
+height: 208px;}
+.bottom{
+    display: flex;
+gap: 14px;
+align-items: center;
+}
+.info {
+    width: 95px;
+}
+.title{
+white-space: nowrap;      
+  overflow: hidden;        
+  text-overflow: ellipsis;
+}
+.author{
+    color: var(--text-gray);
+}
+.deleteBtn{
+    background: transparent;
+    border: none;
+    width: 28px;
+    height: 28px;
+}
+.img{}
+

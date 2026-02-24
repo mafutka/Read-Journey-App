@@ -1,9 +1,23 @@
 .modalContainer {
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
 }
 .image {
      width: 100%;
   height: auto;    
   object-fit: contain; 
-  border-radius: 8px;
+  border-radius: 12px;
+}
+
+.textBlock {
+  text-align: center;
+}
+.author {
+  color: var(--text-gray);
+  margin-top: 4px;
+}
+.addBtn {
+  
 }

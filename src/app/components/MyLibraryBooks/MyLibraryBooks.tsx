@@ -1,57 +1,47 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import {
-  getUserBooks,
-  deleteBook,
-  UserBook,
-} from "../../../services/books/booksApi"
+import { useLibraryStore } from "../../../store/useLibraryStore"
 import BookDetailsModal from "./BookDetailsModal"
+import LibraryBookCard from "./LibraryBookCard"
 import css from "./BookCardLibrary.module.css"
 
 export default function MyLibraryBooks() {
-  const [books, setBooks] = useState<UserBook[]>([])
+  const { books, fetchBooks, removeBook, loading } = useLibraryStore()
+
   const [filter, setFilter] = useState<
     "all" | "unread" | "in-progress" | "done"
   >("all")
-  const [selectedBook, setSelectedBook] = useState<UserBook | null>(null)
+
+  const [selectedBook, setSelectedBook] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const data = await getUserBooks()
-        setBooks(data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
     fetchBooks()
-  }, [])
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteBook(id)
-      setBooks((prev) => prev.filter((b) => b._id !== id))
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  }, [fetchBooks])
 
   const filteredBooks =
-    filter === "all" ? books : books.filter((b) => b.status === filter)
+    filter === "all"
+      ? books
+      : books.filter((b) => b.status === filter)
+
+  const currentBook = books.find((b) => b._id === selectedBook) || null
 
   return (
     <div className={css.libraryContainer}>
       <div className={css.header}>
         <h2>My library</h2>
+
         <div className={css.selectWrapper}>
           <select
             className={css.select}
             value={filter}
             onChange={(e) =>
               setFilter(
-                e.target.value as "all" | "unread" | "in-progress" | "done",
+                e.target.value as
+                  | "all"
+                  | "unread"
+                  | "in-progress"
+                  | "done"
               )
             }
           >
@@ -60,56 +50,57 @@ export default function MyLibraryBooks() {
             <option value="in-progress">In progress</option>
             <option value="done">Done</option>
           </select>
+
           <svg
             className={css.arrow}
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M4 6L8 10L12 6"
               stroke="#F9F9F9"
-              stroke-width="1.5"
-              stroke-linecap="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
             />
           </svg>
         </div>
       </div>
-      {filteredBooks.length === 0 ? (
-         <div className={css.empty}>
-          <div className={css.imageBox}>
-    <img
-      src="/books_small.png"
-      alt="Empty library"
-      className={css.emptyImage}
-    />
-    </div>
-    <p className={css.emptyText}>
-      To start training, add <span className={css.gray}>some of your books </span>or from the recommended ones
-    </p>
-  </div>): (
-    <div className={css.list}>
-        {filteredBooks.map((book) => (
-          <div key={book._id}>
-            <img
-              src={book.imageUrl}
-              alt={book.title}
-              onClick={() => setSelectedBook(book)}
-            />
-            <p>{book.title}</p>
-            <p>{book.author}</p>
-            <button onClick={() => handleDelete(book._id)}>Delete</button>
-          </div>
-        ))}
-      </div>
-  )}
-      
 
-      {selectedBook && (
+      {loading ? (
+        <p>Loading...</p>
+      ) : filteredBooks.length === 0 ? (
+        <div className={css.empty}>
+          <div className={css.imageBox}>
+            <img
+              src="/books_small.png"
+              alt="Empty library"
+              className={css.emptyImage}
+            />
+          </div>
+          <p className={css.emptyText}>
+            To start training, add{" "}
+            <span className={css.gray}>some of your books </span>
+            or from the recommended ones
+          </p>
+        </div>
+      ) : (
+        <div className={css.list}>
+  {filteredBooks.map((book) => (
+    <LibraryBookCard
+      key={book._id}
+      book={book}
+      onDelete={removeBook}
+      onOpen={setSelectedBook}
+    />
+  ))}
+</div>
+      )}
+
+      {currentBook && (
         <BookDetailsModal
-          book={selectedBook}
+          book={currentBook}
           onClose={() => setSelectedBook(null)}
         />
       )}
