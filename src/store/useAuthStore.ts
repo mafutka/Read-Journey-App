@@ -1,4 +1,5 @@
 import { create } from "zustand"
+import { getCurrentUser } from "@/services/auth/authApi"
 
 type AuthState = {
   token: string | null
@@ -28,8 +29,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ token: null })
   },
 
-  initAuth: () => {
-    const token = localStorage.getItem("token")
+ initAuth: async () => {
+  const token = localStorage.getItem("token")
+
+  if (!token) {
+    set({ token: null, isInitialized: true })
+    return
+  }
+
+  try {
+    await getCurrentUser() 
     set({ token, isInitialized: true })
-  },
+  } catch {
+    localStorage.removeItem("token")
+    set({ token: null, isInitialized: true })
+  }
+},
 }))

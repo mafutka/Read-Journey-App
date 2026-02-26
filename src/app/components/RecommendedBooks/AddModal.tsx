@@ -5,6 +5,7 @@ import Modal from "../ui/Modal"
 import { Book } from "../../../services/books/booksApi"
 import DarkButton from "../ui/DarkButton"
 import css from "./AddModal.module.css"
+import BookModalLayout from "../ui/BookModalLayout"
 
 type Props = {
   book: Book
@@ -15,35 +16,21 @@ export default function AddModal({ book, onClose }: Props) {
   const { addBookById } = useLibraryStore()
 
   const handleAdd = async () => {
-    try {
-      await addBookById(book._id)
-      onClose()
-    } catch (e) {
-      console.error("Add from modal error:", e)
-    }
+    await addBookById(book._id)
+    onClose()
   }
 
   return (
     <Modal onClose={onClose}>
-      <div className={css.modalContainer}>
-        <img
-          className={css.image}
-          src={book.imageUrl}
-          alt={book.title}
-        />
-
-        <div className={css.textBlock}>
-          <h2>{book.title}</h2>
-          <p className={css.author}>{book.author}</p>
-        </div>
-
-        <DarkButton
-          className={css.addBtn}
-          onClick={handleAdd}
-        >
+      <BookModalLayout
+        imageUrl={book.imageUrl}
+        title={book.title}
+        author={book.author}
+      >
+        <DarkButton className={css.addBtn} onClick={handleAdd}>
           Add to library
         </DarkButton>
-      </div>
+      </BookModalLayout>
     </Modal>
   )
 }

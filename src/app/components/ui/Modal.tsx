@@ -37,7 +37,6 @@ export default function Modal({ children, onClose }: Props) {
           <use href="/symbol-defs.svg#icon-x" />
         </svg>
       </button>
-
         {children}
       </div>
     </div>

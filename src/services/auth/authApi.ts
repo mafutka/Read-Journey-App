@@ -1,3 +1,5 @@
+import { useAuthStore } from "@/store/useAuthStore";
+
 const BASE = "https://readjourney.b.goit.study";
 
 export async function registerUser(data: {
@@ -39,6 +41,22 @@ export async function loginUser(data: {
   return result;
 }
 
+export async function getCurrentUser() {
+  const token = localStorage.getItem("token")
+
+  const response = await fetch(`${BASE}/api/users/current`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error("Unauthorized")
+  }
+
+  return response.json()
+}
+
 export async function logoutUser() {
   const token = localStorage.getItem("token")
 
@@ -54,5 +72,6 @@ export async function logoutUser() {
   }
 
   localStorage.removeItem("token")
+  useAuthStore.getState().logout()
 }
 

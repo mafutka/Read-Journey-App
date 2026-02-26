@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useLibraryStore } from "../../../store/useLibraryStore"
-import BookDetailsModal from "./BookDetailsModal"
+import StartReadingModal from "./StartReadingModal"
 import LibraryBookCard from "./LibraryBookCard"
 import css from "./BookCardLibrary.module.css"
 
@@ -76,7 +76,7 @@ export default function MyLibraryBooks() {
       )}
 
       {currentBook && (
-        <BookDetailsModal
+        <StartReadingModal
           book={currentBook}
           onClose={() => setSelectedBookId(null)}
         />

@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { logoutUser } from "../../../services/auth/authApi"
+import { useAuthStore } from "@/store/useAuthStore" 
 import MobileSidebar from "../MobileSidebar/MobileSidebar"
 import DarkButton from "../ui/DarkButton"
 import Link from "next/link"
@@ -12,24 +13,16 @@ export default function Header() {
   const pathname = usePathname()
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
+  const userInitial =
+  typeof window !== "undefined"
+    ? localStorage.getItem("userName")?.charAt(0).toUpperCase() || "U"
+    : "U"
+  const { logout } = useAuthStore()
 
-  const [userInitial, setUserInitial] = useState("U")
-
-  useEffect(() => {
-    const name = localStorage.getItem("userName")
-    if (name) {
-      setUserInitial(name.charAt(0).toUpperCase())
-    }
-  }, [])
   const handleLogout = async () => {
-    try {
-      await logoutUser()
-    } catch (error) {
-      alert("Logout error")
-    } finally {
-      localStorage.clear()
-      router.push("/login")
-    }
+    await logoutUser()
+    logout()
+    router.push("/login")
   }
   return (
     <div className={css.container}>
