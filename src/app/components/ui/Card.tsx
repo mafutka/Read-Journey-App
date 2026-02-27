@@ -1,8 +1,14 @@
+import React from "react";
 import css from "./Card.module.css"
 
-export const Card = ({ children }: { children: React.ReactNode }) => {
+type Props = {
+  children: React.ReactNode,
+  className?: string
+}
+
+export const Card = ({ children, className }: Props) => {
   return (
-    <div className={css.container}>
+    <div className={`${css.container} ${className ?? ""}`}>
       {children}
     </div>
   );

@@ -1,15 +1,28 @@
+.dashboard
+
 .top {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 8px;
 }
+/* @media (min-width: 1440px) {
+  .top {
+  max-width: 353px;
+}
+} */
 .filters {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
 }
+/* @media (min-width: 1440px){
+  .input {
+    max-width: 313px;
+  }
+} */
+
 .startBlock {
   display: flex;
   flex-direction: column;
