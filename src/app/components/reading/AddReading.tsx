@@ -1,22 +1,25 @@
 "use client"
 
-import { useState } from "react"
+import { useForm, FormProvider } from "react-hook-form"
 import { useReadingStore } from "@/store/useReadingStore"
-import {
-  startReadingApi,
-  finishReadingApi,
-} from "../../../services/books/readingApi"
 import toast from "react-hot-toast"
+import Input from "../../components/ui/Input"
+import DarkButton from "../ui/DarkButton"
+import css from "./AddReading.module.css"
+
+type FormValues = {
+  page: number
+}
 
 export default function AddReading() {
-  const [page, setPage] = useState("")
-  const { isReading, totalPages, startReadingLocal, finishReadingLocal } =
+  const methods = useForm<FormValues>()
+  const { handleSubmit, reset } = methods
+
+  const { isReading, totalPages, startReading, finishReading } =
     useReadingStore()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const pageNumber = Number(page)
+  const onSubmit = async (data: FormValues) => {
+    const pageNumber = Number(data.page)
 
     if (!pageNumber || pageNumber < 1 || pageNumber > totalPages) {
       toast.error("Invalid page number")
@@ -25,41 +28,40 @@ export default function AddReading() {
 
     try {
       if (!isReading) {
-        await startReadingApi(pageNumber)
-        startReadingLocal(pageNumber)
+        await startReading(pageNumber)
         toast.success("Reading started")
       } else {
-        const session = await finishReadingApi(pageNumber)
+        await finishReading(pageNumber)
 
-        finishReadingLocal(pageNumber, session)
-
-        if (session.finishPage === totalPages) {
+        if (pageNumber === totalPages) {
           toast.success("🎉 Book completed!")
         } else {
           toast.success("Reading session saved")
         }
       }
 
-      setPage("")
+      reset()
     } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message)
-      } else {
-        toast.error("Error")
-      }
+      toast.error("Error")
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <Input
-        type="number"
-        value={page}
-        onChange={(e) => setPage(e.target.value)}
-        placeholder="Page number"
-      /> */}
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <p className={css.inputText}>
+      {isReading ? "  Stop page:" : "  Start page:"}
+    </p>
+        <Input
+          name="page"
+          label="Page number:"
+          type="number"
+        />
 
-      <button type="submit">{isReading ? "To stop" : "To start"}</button>
-    </form>
+        <DarkButton className={css.addBtn} type="submit">
+          {isReading ? "To stop" : "To start"}
+        </DarkButton>
+      </form>
+    </FormProvider>
   )
 }

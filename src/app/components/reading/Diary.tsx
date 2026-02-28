@@ -5,13 +5,13 @@ import { deleteReadingApi } from "../../../services/books/readingApi"
 import toast from "react-hot-toast"
 
 export default function Diary() {
-  const { sessions, bookId, deleteSessionLocal } =
+  const { sessions, bookId, deleteSession} =
     useReadingStore()
 
   const handleDelete = async (readingId: string) => {
     try {
       await deleteReadingApi(bookId!, readingId)
-      deleteSessionLocal(readingId)
+      deleteSession(readingId)
       toast.success("Session deleted")
     } catch {
       toast.error("Delete failed")

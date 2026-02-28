@@ -6,8 +6,6 @@ type InputProps = {
   label: string;
   type?: string;
   icon?: React.ReactNode
-  value?: number
-  page?: number
 };
 
 export default function Input({
@@ -15,7 +13,7 @@ export default function Input({
   label,
   type = "text",
   icon,
-  page,
+
 }: InputProps) {
   const { register,  formState: { errors }, } = useFormContext();
   const hasError = !!errors[name]
@@ -27,7 +25,6 @@ export default function Input({
       type={type}
       {...register(name)}
       className={css.input}
-      value={page}
     />
     {icon && <div className={css.icon}>{icon}</div>}
     </div>

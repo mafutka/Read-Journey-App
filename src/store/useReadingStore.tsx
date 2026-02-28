@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { UserBook } from "@/services/books/booksApi"
+import { startReadingApi, finishReadingApi, deleteReadingApi } from "@/services/books/readingApi"
 
 
 interface ReadingSession {
@@ -22,11 +23,12 @@ interface ReadingState {
   sessions: ReadingSession[]
   isCompleted: boolean
 
-setActiveBook: (book: UserBook) => void 
+  setActiveBook: (book: UserBook) => void
   setBook: (bookId: string, totalPages: number) => void
-  startReadingLocal: (page: number) => void
-  finishReadingLocal: (page: number, session: ReadingSession) => void
-  deleteSessionLocal: (id: string) => void
+
+  startReading: (page: number) => Promise<void>
+  finishReading: (page: number) => Promise<void>
+  deleteSession: (readingId: string) => Promise<void>
 }
 
 export const useReadingStore = create<ReadingState>((set, get) => ({
@@ -45,30 +47,61 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
       bookId: book._id,
       totalPages: book.totalPages,
     }),
+
   setBook: (bookId, totalPages) =>
     set({ bookId, totalPages }),
 
-  startReadingLocal: (page) =>
-    set({
-      currentPage: page,
-      isReading: true,
-    }),
+  startReading: async (page) => {
+    const { bookId } = get()
+    if (!bookId) return
 
-  finishReadingLocal: (page, session) => {
-    const total = get().totalPages
-    const progress = Math.round((page / total) * 100)
+    try {
+      await startReadingApi(bookId, page)
 
-    set((state) => ({
-      currentPage: page,
-      isReading: false,
-      sessions: [...state.sessions, session],
-      progress,
-      isCompleted: page === total,
-    }))
+      set({
+        currentPage: page,
+        isReading: true,
+      })
+    } catch (e) {
+      throw e
+    }
   },
 
-  deleteSessionLocal: (id) =>
-    set((state) => ({
-      sessions: state.sessions.filter((s) => s._id !== id),
-    })),
+  finishReading: async (page) => {
+    const { bookId, totalPages } = get()
+    if (!bookId) return
+
+    try {
+      const session = await finishReadingApi(bookId, page)
+
+      const progress = Math.round((page / totalPages) * 100)
+
+      set((state) => ({
+        currentPage: page,
+        isReading: false,
+        sessions: [...state.sessions, session],
+        progress,
+        isCompleted: page === totalPages,
+      }))
+    } catch (e) {
+      throw e
+    }
+  },
+
+  deleteSession: async (readingId) => {
+    const { bookId } = get()
+    if (!bookId) return
+
+    try {
+      await deleteReadingApi(bookId, readingId)
+
+      set((state) => ({
+        sessions: state.sessions.filter(
+          (s) => s._id !== readingId
+        ),
+      }))
+    } catch (e) {
+      throw e
+    }
+  },
 }))
