@@ -11,11 +11,11 @@
 
 .bottom {
   display: flex;
-  gap: 14px;
+  justify-content: space-between;
   align-items: center;
 }
 .info {
-  width: 95px;
+  width: 100px;
 }
 .title {
   white-space: nowrap;
@@ -24,6 +24,9 @@
 }
 .author {
   color: var(--text-gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .deleteBtn {
   background: transparent;

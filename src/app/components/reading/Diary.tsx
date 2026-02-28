@@ -16,7 +16,7 @@ export default function Diary() {
     } catch {
       toast.error("Delete failed")
     }
-  }
+  } 
 
   return (
     <div>

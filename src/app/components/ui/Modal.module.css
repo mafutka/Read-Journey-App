@@ -2,22 +2,22 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 1000;
 }
 
 .modal {
   background: var(--background);
-  border-radius: 12px;
-  padding: 24px;
+  border-radius: 8px;
   position: relative;
+   display: flex;
+  align-items: center;    
+  justify-content: center; 
+  min-height: 439px;
   width: 100%;
   max-width: 335px;  
-  max-height: 90vh;
   overflow-y: auto;
 }
 

@@ -1,15 +1,17 @@
 import axios from "axios"
 
-export const startReadingApi = async (page: number) => {
+export const startReadingApi = async (page: number,) => {
   const { data } = await axios.post("/books/reading/start", {
     page,
+    
   })
   return data
 }
 
-export const finishReadingApi = async (page: number) => {
+export const finishReadingApi = async (page: number,) => {
   const { data } = await axios.post("/books/reading/finish", {
     page,
+    
   })
   return data
 }

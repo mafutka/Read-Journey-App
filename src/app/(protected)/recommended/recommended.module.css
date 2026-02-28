@@ -1,3 +1,12 @@
-.desktopLimit {
+
+@media (min-width: 1440px ) {
+    .page {
+        display: flex;
+        flex-direction: row;
+        gap: 16px;
+       
+    }
+  .desktopLimit {
     max-width: 353px;
+  }
 }

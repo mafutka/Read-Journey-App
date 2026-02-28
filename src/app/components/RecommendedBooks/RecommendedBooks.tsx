@@ -58,7 +58,7 @@ useEffect(() => {
   }, [page, limit])
 
   return (
-    <>
+    <div className={css.container}>
       <div className={css.header}>
         <h2>Recommended</h2>
         <div className={css.buttons}>
@@ -98,6 +98,6 @@ useEffect(() => {
           onClose={() => setSelectedBook(null)}
         />
       )}
-    </>
+    </div>
   )
 }

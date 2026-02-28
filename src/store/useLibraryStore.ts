@@ -77,7 +77,8 @@ export const useLibraryStore = create<LibraryState>((set) => ({
         books: state.books.filter((b) => b._id !== id),
       }))
     } catch (e) {
-      console.error("Delete error:", e)
+       console.error("Delete error:", e)
+  toast.error("Delete failed")
     }
   },
 }))

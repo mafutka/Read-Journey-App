@@ -1,21 +1,25 @@
 .container {
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  align-items: center;
   gap: 16px;
+  justify-content: center;
   text-align: center;
 }
 
 .image {
-  width: 100%;
-  aspect-ratio: 137 / 208;
+  width: 140px;
+  height: 213px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .textBlock {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  max-width: 260px;
 }
 
 .author {

@@ -52,12 +52,12 @@ export default function AddReading() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      {/* <Input
         type="number"
         value={page}
         onChange={(e) => setPage(e.target.value)}
         placeholder="Page number"
-      />
+      /> */}
 
       <button type="submit">{isReading ? "To stop" : "To start"}</button>
     </form>

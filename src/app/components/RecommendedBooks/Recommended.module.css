@@ -1,3 +1,9 @@
+@media (min-width: 1440px) {
+  .container {
+    padding: 20px;
+  }
+}
+
 .list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -18,10 +24,10 @@
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 8px;
   width: 100%;
   cursor: pointer;
-  
 }
 .card h3 {
   white-space: nowrap;
@@ -33,7 +39,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 28px;
 }
+
+
 .buttons {
   display: flex;
   gap: 8px;
@@ -60,8 +69,8 @@
 }
 
 .bookImj {
-width: 137px;
-height: 208px;
+  width: 137px;
+  height: 208px;
   border-radius: 8px;
   margin: 0 auto;
 }
@@ -70,6 +79,7 @@ height: 208px;
   flex-direction: column;
   gap: 2px;
   width: 137px;
+  margin: 0 auto;
 }
 .author {
   font-weight: 500;
