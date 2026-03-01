@@ -2,20 +2,18 @@
 
 import { useReadingStore } from "@/store/useReadingStore"
 import AddReading from "./AddReading"
-import Diary from "./Diary"
+import Details from "./Details"
 
 export default function MyBook() {
-  const activeBook = useReadingStore(
-    (state) => state.activeBook
-  )
+  const { activeBook, sessions } = useReadingStore()
 
-  if (!activeBook) {
-    return <p>No active book</p>
-  }
+  if (!activeBook) return <p>No active book</p>
+
+  const hasStartedReading = sessions.length > 0
 
   return (
-    <div style={{ marginTop: "24px" }}>
-      <div style={{ display: "flex", gap: "20px" }}>
+    <div style={{ marginTop: 24 }}>
+      <div style={{ display: "flex", gap: 20 }}>
         {activeBook.imageUrl && (
           <img
             src={activeBook.imageUrl}
@@ -32,7 +30,18 @@ export default function MyBook() {
       </div>
 
       <AddReading />
-      <Diary />
+
+      {!hasStartedReading ? (
+        <div style={{ marginTop: 24 }}>
+          <h3>Progress</h3>
+          <p>
+            Here you will see when and how much you read.
+            To record, click on the red button above.
+          </p>
+        </div>
+      ) : (
+        <Details />
+      )}
     </div>
   )
 }

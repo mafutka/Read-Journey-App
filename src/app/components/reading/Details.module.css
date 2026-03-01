@@ -1,0 +1,19 @@
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.icons {
+    display: flex;
+    gap: 24px;
+}
+
+.changeBtn {
+
+}
+
+.detaisIcon {
+    width: 16px;
+    height: 16px;
+}
