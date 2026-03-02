@@ -1,7 +1,11 @@
 import { create } from "zustand"
+import { persist } from "zustand/middleware"
 import { UserBook } from "@/services/books/booksApi"
-import { startReadingApi, finishReadingApi, deleteReadingApi } from "@/services/books/readingApi"
-
+import {
+  startReadingApi,
+  finishReadingApi,
+  deleteReadingApi,
+} from "@/services/books/readingApi"
 
 interface ReadingSession {
   _id: string
@@ -23,6 +27,10 @@ interface ReadingState {
   sessions: ReadingSession[]
   isCompleted: boolean
 
+  isFormVisible: boolean
+  toggleForm: () => void
+  closeForm: () => void
+
   setActiveBook: (book: UserBook) => void
   setBook: (bookId: string, totalPages: number) => void
 
@@ -31,77 +39,86 @@ interface ReadingState {
   deleteSession: (readingId: string) => Promise<void>
 }
 
-export const useReadingStore = create<ReadingState>((set, get) => ({
-  activeBook: null,
-  bookId: null,
-  totalPages: 0,
-  currentPage: 0,
-  isReading: false,
-  progress: 0,
-  sessions: [],
-  isCompleted: false,
+export const useReadingStore = create<ReadingState>()(
+  persist(
+    (set, get) => ({
+      activeBook: null,
+      bookId: null,
+      totalPages: 0,
+      currentPage: 0,
+      isReading: false,
+      progress: 0,
+      sessions: [],
+      isCompleted: false,
 
-  setActiveBook: (book) =>
-    set({
-      activeBook: book,
-      bookId: book._id,
-      totalPages: book.totalPages,
+      isFormVisible: false,
+
+      toggleForm: () =>
+        set((state) => ({
+          isFormVisible: !state.isFormVisible,
+        })),
+
+      closeForm: () =>
+        set({
+          isFormVisible: false,
+        }),
+
+      setActiveBook: (book) =>
+        set({
+          activeBook: book,
+          bookId: book._id,
+          totalPages: book.totalPages,
+        }),
+
+      setBook: (bookId, totalPages) =>
+        set({ bookId, totalPages }),
+
+      startReading: async (page) => {
+        const { bookId } = get()
+        if (!bookId) return
+
+        await startReadingApi(bookId, page)
+
+        set({
+          currentPage: page,
+          isReading: true,
+          isFormVisible: false, 
+        })
+      },
+
+      finishReading: async (page) => {
+        const { bookId, totalPages } = get()
+        if (!bookId) return
+
+        const session = await finishReadingApi(bookId, page)
+
+        const progress = Math.round((page / totalPages) * 100)
+
+        set((state) => ({
+          currentPage: page,
+          isReading: false,
+          sessions: [...state.sessions, session],
+          progress,
+          isCompleted: page === totalPages,
+          isFormVisible: false, 
+        }))
+      },
+
+      deleteSession: async (readingId) => {
+        const { bookId } = get()
+        if (!bookId) return
+
+        await deleteReadingApi(bookId, readingId)
+
+        set((state) => ({
+          sessions: state.sessions.filter(
+            (s) => s._id !== readingId
+          ),
+        }))
+      },
     }),
-
-  setBook: (bookId, totalPages) =>
-    set({ bookId, totalPages }),
-
-  startReading: async (page) => {
-    const { bookId } = get()
-    if (!bookId) return
-
-    try {
-      await startReadingApi(bookId, page)
-
-      set({
-        currentPage: page,
-        isReading: true,
-      })
-    } catch (e) {
-      throw e
+    {
+      name: "reading-storage",
     }
-  },
-
-  finishReading: async (page) => {
-    const { bookId, totalPages } = get()
-    if (!bookId) return
-
-    try {
-      const session = await finishReadingApi(bookId, page)
-
-      const progress = Math.round((page / totalPages) * 100)
-
-      set((state) => ({
-        currentPage: page,
-        isReading: false,
-        sessions: [...state.sessions, session],
-        progress,
-        isCompleted: page === totalPages,
-      }))
-    } catch (e) {
-      throw e
-    }
-  },
-
-  deleteSession: async (readingId) => {
-    const { bookId } = get()
-    if (!bookId) return
-
-    try {
-      await deleteReadingApi(bookId, readingId)
-
-      set((state) => ({
-        sessions: state.sessions.filter(
-          (s) => s._id !== readingId
-        ),
-      }))
-    } catch (e) {
-      throw e
-    }
-  },
-}))
+  )
+)

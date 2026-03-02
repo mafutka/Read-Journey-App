@@ -7,3 +7,35 @@
     margin-top: 20px;
     margin-bottom: 40px;
 }
+/* My reading styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+.myReadingImg {
+      width: 140px;
+  height: 213px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.bookInfo {
+    text-align: center;
+}
+.author {
+    font-size: 10px;
+    color: var(--text-gray);
+}
+
+.redBtn1 {
+    background: transparent;
+    border: none;
+}
+.redIcon {
+    width: 40px;
+    height: 40px;
+   
+}

@@ -15,13 +15,24 @@ export default function AddReading() {
   const methods = useForm<FormValues>()
   const { handleSubmit, reset } = methods
 
-  const { isReading, totalPages, startReading, finishReading } =
-    useReadingStore()
+  const {
+    isReading,
+    totalPages,
+    isFormVisible,
+    startReading,
+    finishReading,
+  } = useReadingStore()
+
+  if (!isFormVisible) return null
 
   const onSubmit = async (data: FormValues) => {
     const pageNumber = Number(data.page)
 
-    if (!pageNumber || pageNumber < 1 || pageNumber > totalPages) {
+    if (
+      !pageNumber ||
+      pageNumber < 1 ||
+      pageNumber > totalPages
+    ) {
       toast.error("Invalid page number")
       return
     }
@@ -41,24 +52,31 @@ export default function AddReading() {
       }
 
       reset()
-    } catch (err) {
+    } catch {
       toast.error("Error")
     }
   }
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={css.form}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <p className={css.inputText}>
-      {isReading ? "  Stop page:" : "  Start page:"}
-    </p>
+          {isReading ? "Stop page:" : "Start page:"}
+        </p>
+
         <Input
           name="page"
           label="Page number:"
           type="number"
         />
 
-        <DarkButton className={css.addBtn} type="submit">
+        <DarkButton
+          className={css.addBtn}
+          type="submit"
+        >
           {isReading ? "To stop" : "To start"}
         </DarkButton>
       </form>

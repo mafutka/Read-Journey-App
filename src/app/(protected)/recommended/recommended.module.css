@@ -1,4 +1,9 @@
 
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 @media (min-width: 1440px ) {
     .page {
         display: flex;

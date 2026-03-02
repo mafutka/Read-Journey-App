@@ -1,11 +1,11 @@
 "use client"
 
 import { useReadingStore } from "@/store/useReadingStore"
-import LibraryBookCard from "../MyLibraryBooks/LibraryBookCard"
 import css from "./AddReading.module.css"
 
 export default function MyReadingBlock() {
-  const activeBook = useReadingStore((s) => s.activeBook)
+  const { activeBook, isReading, toggleForm } =
+    useReadingStore()
 
   if (!activeBook) return null
 
@@ -14,19 +14,30 @@ export default function MyReadingBlock() {
       <h2>My reading</h2>
 
       <img
+        className={css.myReadingImg}
         src={activeBook.imageUrl}
         alt={activeBook.title}
       />
 
-      <h3>{activeBook.title}</h3>
-      <p>{activeBook.author}</p>
+      <div className={css.bookInfo}>
+        <h3>{activeBook.title}</h3>
+        <p>{activeBook.author}</p>
+      </div>
 
-      <button className={css.redBtn1} >
-      
-      <svg className={css.redIcon}>
-          <use href="/symbol-defs.svg#icon-icon" />
-        </svg>
-        </button>
+      <button
+        className={css.redBtn1}
+        onClick={toggleForm}
+      >
+        {isReading ? (
+          <svg className={css.redIcon}>
+            <use href="/symbol-defs.svg#icon-block" />
+          </svg>
+        ) : (
+          <svg className={css.redIcon}>
+            <use href="/symbol-defs.svg#icon-block-1" />
+          </svg>
+        )}
+      </button>
     </div>
   )
 }
