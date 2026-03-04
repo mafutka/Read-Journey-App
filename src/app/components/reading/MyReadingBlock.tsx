@@ -4,8 +4,9 @@ import { useReadingStore } from "@/store/useReadingStore"
 import css from "./AddReading.module.css"
 
 export default function MyReadingBlock() {
-  const { activeBook, isReading, toggleForm } =
-    useReadingStore()
+  const activeBook = useReadingStore((state) => state.activeBook)
+const isReading = useReadingStore((state) => state.isReading)
+const toggleForm = useReadingStore((state) => state.toggleForm)
 
   if (!activeBook) return null
 

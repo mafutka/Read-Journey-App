@@ -89,17 +89,17 @@ export const useReadingStore = create<ReadingState>()(
         set({ bookId, totalPages }),
 
       startReading: async (page) => {
-        const { bookId } = get()
-        if (!bookId) return
+  const { bookId } = get()
+  if (!bookId) return
 
-        await startReadingApi(bookId, page)
+  await startReadingApi(bookId, page)
+  console.log("bookId:", bookId)
 
-        set({
-          currentPage: page,
-          isReading: true,
-          isFormVisible: false,
-        })
-      },
+  set({
+    currentPage: page,
+    isReading: true,
+  })
+},
 
       finishReading: async (page) => {
   const { bookId } = get()
@@ -110,8 +110,8 @@ export const useReadingStore = create<ReadingState>()(
 
   const sessions: ReadingSession[] =
     updatedBook.progress
-      .filter((p: BackendProgress) => p.finishPage)
-      .map((p: BackendProgress) => ({
+      .filter((p) => p.finishPage)
+      .map((p) => ({
         _id: p.startReading,
         startPage: p.startPage,
         finishPage: p.finishPage!,
@@ -124,7 +124,6 @@ export const useReadingStore = create<ReadingState>()(
   set({
     isReading: false,
     sessions,
-    isFormVisible: false,
   })
 },
 

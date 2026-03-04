@@ -1,10 +1,10 @@
-import axios from "axios"
+import axios from "../../services/auth/axiosInstance"
 
 export const startReadingApi = async (
   id: string,
   page: number
 ) => {
-  const { data } = await axios.post("/books/reading/start", {
+  const { data } = await axios.post(`/books/reading/start`, {
     id,
     page,
   })
@@ -15,7 +15,7 @@ export const finishReadingApi = async (
   id: string,
   page: number
 ) => {
-  const { data } = await axios.post("/books/reading/finish", {
+  const { data } = await axios.post(`/books/reading/finish`, {
     id,
     page,
   })
