@@ -23,34 +23,25 @@ interface ReadingState {
   totalPages: number
   currentPage: number
   isReading: boolean
-  progress: number
   sessions: ReadingSession[]
-  isCompleted: boolean
-
-  isFormVisible: boolean
-  toggleForm: () => void
-  closeForm: () => void
 
   setActiveBook: (book: UserBook) => void
-  setBook: (bookId: string, totalPages: number) => void
-
   startReading: (page: number) => Promise<void>
   finishReading: (page: number) => Promise<void>
   deleteSession: (readingId: string) => Promise<void>
 }
+
 interface BackendProgress {
   startPage: number
   finishPage?: number
   startReading: string
   finishReading?: string
   speed: number
-  status: string
 }
 
 interface BackendBookResponse {
   _id: string
   totalPages: number
-  status: string
   progress: BackendProgress[]
 }
 
@@ -62,21 +53,7 @@ export const useReadingStore = create<ReadingState>()(
       totalPages: 0,
       currentPage: 0,
       isReading: false,
-      progress: 0,
       sessions: [],
-      isCompleted: false,
-
-      isFormVisible: false,
-
-      toggleForm: () =>
-        set((state) => ({
-          isFormVisible: !state.isFormVisible,
-        })),
-
-      closeForm: () =>
-        set({
-          isFormVisible: false,
-        }),
 
       setActiveBook: (book) =>
         set({
@@ -85,47 +62,43 @@ export const useReadingStore = create<ReadingState>()(
           totalPages: book.totalPages,
         }),
 
-      setBook: (bookId, totalPages) =>
-        set({ bookId, totalPages }),
-
       startReading: async (page) => {
-  const { bookId } = get()
-  if (!bookId) return
+        const { bookId } = get()
+        if (!bookId) return
 
-  await startReadingApi(bookId, page)
-  console.log("bookId:", bookId)
+        await startReadingApi(bookId, page)
 
-  set({
-    currentPage: page,
-    isReading: true,
-  })
-},
+        set({
+          currentPage: page,
+          isReading: true,
+        })
+      },
 
       finishReading: async (page) => {
-  const { bookId } = get()
-  if (!bookId) return
+        const { bookId } = get()
+        if (!bookId) return
 
-  const updatedBook: BackendBookResponse =
-    await finishReadingApi(bookId, page)
+        const updatedBook: BackendBookResponse =
+          await finishReadingApi(bookId, page)
 
-  const sessions: ReadingSession[] =
-    updatedBook.progress
-      .filter((p) => p.finishPage)
-      .map((p) => ({
-        _id: p.startReading,
-        startPage: p.startPage,
-        finishPage: p.finishPage!,
-        pagesRead: p.finishPage! - p.startPage,
-        readingTime: 0,
-        date: p.finishReading!,
-        speed: p.speed,
-      }))
+        const sessions: ReadingSession[] =
+          updatedBook.progress
+            .filter((p) => p.finishPage)
+            .map((p) => ({
+              _id: p.startReading,
+              startPage: p.startPage,
+              finishPage: p.finishPage!,
+              pagesRead: p.finishPage! - p.startPage,
+              readingTime: 0,
+              date: p.finishReading!,
+              speed: p.speed,
+            }))
 
-  set({
-    isReading: false,
-    sessions,
-  })
-},
+        set({
+          isReading: false,
+          sessions,
+        })
+      },
 
       deleteSession: async (readingId) => {
         const { bookId } = get()

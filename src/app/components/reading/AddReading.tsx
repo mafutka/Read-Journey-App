@@ -15,15 +15,10 @@ export default function AddReading() {
   const methods = useForm<FormValues>()
   const { handleSubmit, reset } = methods
 
-  const {
-    isReading,
-    totalPages,
-    isFormVisible,
-    startReading,
-    finishReading,
-  } = useReadingStore()
-
-  if (!isFormVisible) return null
+  const isReading = useReadingStore((s) => s.isReading)
+  const totalPages = useReadingStore((s) => s.totalPages)
+  const startReading = useReadingStore((s) => s.startReading)
+  const finishReading = useReadingStore((s) => s.finishReading)
 
   const onSubmit = async (data: FormValues) => {
     const pageNumber = Number(data.page)
@@ -43,12 +38,7 @@ export default function AddReading() {
         toast.success("Reading started")
       } else {
         await finishReading(pageNumber)
-
-        if (pageNumber === totalPages) {
-          toast.success("🎉 Book completed!")
-        } else {
-          toast.success("Reading session saved")
-        }
+        toast.success("Reading session saved")
       }
 
       reset()

@@ -9,16 +9,21 @@
 }
 /* My reading styles */
 .card {
-    display: flex;
+   padding: 20px 0;
+}
+.inner {
+ display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
+}
+.heading {
+    margin-bottom: 40px;
 }
 .myReadingImg {
       width: 140px;
   height: 213px;
-  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -38,4 +43,17 @@
     width: 40px;
     height: 40px;
    
+}
+
+@media (min-width: 768px) {
+    .myReadingImg {
+      width: 169px;
+  height: 256px;
+}
+}
+@media (min-width: 1440px) {
+    .myReadingImg {
+      width: 224px;
+  height: 340px;
+}
 }

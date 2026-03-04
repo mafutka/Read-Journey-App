@@ -4,16 +4,15 @@ import { useReadingStore } from "@/store/useReadingStore"
 import css from "./AddReading.module.css"
 
 export default function MyReadingBlock() {
-  const activeBook = useReadingStore((state) => state.activeBook)
-const isReading = useReadingStore((state) => state.isReading)
-const toggleForm = useReadingStore((state) => state.toggleForm)
+  const activeBook = useReadingStore((s) => s.activeBook)
+  const isReading = useReadingStore((s) => s.isReading)
 
   if (!activeBook) return null
 
   return (
     <div className={css.card}>
-      <h2>My reading</h2>
-
+      <h2 className={css.heading}>My reading</h2>
+<div className={css.inner}>
       <img
         className={css.myReadingImg}
         src={activeBook.imageUrl}
@@ -25,10 +24,7 @@ const toggleForm = useReadingStore((state) => state.toggleForm)
         <p>{activeBook.author}</p>
       </div>
 
-      <button
-        className={css.redBtn1}
-        onClick={toggleForm}
-      >
+      <button className={css.redBtn1}>
         {isReading ? (
           <svg className={css.redIcon}>
             <use href="/symbol-defs.svg#icon-block" />
@@ -39,6 +35,7 @@ const toggleForm = useReadingStore((state) => state.toggleForm)
           </svg>
         )}
       </button>
+      </div>
     </div>
   )
 }
