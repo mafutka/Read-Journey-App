@@ -1,6 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 .image {
  width: 100%;

@@ -38,6 +38,21 @@ interface ReadingState {
   finishReading: (page: number) => Promise<void>
   deleteSession: (readingId: string) => Promise<void>
 }
+interface BackendProgress {
+  startPage: number
+  finishPage?: number
+  startReading: string
+  finishReading?: string
+  speed: number
+  status: string
+}
+
+interface BackendBookResponse {
+  _id: string
+  totalPages: number
+  status: string
+  progress: BackendProgress[]
+}
 
 export const useReadingStore = create<ReadingState>()(
   persist(
@@ -82,27 +97,36 @@ export const useReadingStore = create<ReadingState>()(
         set({
           currentPage: page,
           isReading: true,
-          isFormVisible: false, 
+          isFormVisible: false,
         })
       },
 
       finishReading: async (page) => {
-        const { bookId, totalPages } = get()
-        if (!bookId) return
+  const { bookId } = get()
+  if (!bookId) return
 
-        const session = await finishReadingApi(bookId, page)
+  const updatedBook: BackendBookResponse =
+    await finishReadingApi(bookId, page)
 
-        const progress = Math.round((page / totalPages) * 100)
+  const sessions: ReadingSession[] =
+    updatedBook.progress
+      .filter((p: BackendProgress) => p.finishPage)
+      .map((p: BackendProgress) => ({
+        _id: p.startReading,
+        startPage: p.startPage,
+        finishPage: p.finishPage!,
+        pagesRead: p.finishPage! - p.startPage,
+        readingTime: 0,
+        date: p.finishReading!,
+        speed: p.speed,
+      }))
 
-        set((state) => ({
-          currentPage: page,
-          isReading: false,
-          sessions: [...state.sessions, session],
-          progress,
-          isCompleted: page === totalPages,
-          isFormVisible: false, 
-        }))
-      },
+  set({
+    isReading: false,
+    sessions,
+    isFormVisible: false,
+  })
+},
 
       deleteSession: async (readingId) => {
         const { bookId } = get()
