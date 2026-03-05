@@ -12,7 +12,12 @@ type FormValues = {
 }
 
 export default function AddReading() {
-  const methods = useForm<FormValues>()
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      page: 1,
+    },
+  })
+
   const { handleSubmit, reset } = methods
 
   const isReading = useReadingStore((s) => s.isReading)
@@ -23,12 +28,21 @@ export default function AddReading() {
   const onSubmit = async (data: FormValues) => {
     const pageNumber = Number(data.page)
 
-    if (
-      !pageNumber ||
-      pageNumber < 1 ||
-      pageNumber > totalPages
-    ) {
-      toast.error("Invalid page number")
+    console.log("pageNumber", pageNumber)
+    console.log("totalPages", totalPages)
+
+    if (isNaN(pageNumber)) {
+      toast.error("Page must be a number")
+      return
+    }
+
+    if (pageNumber < 1) {
+      toast.error("Page must be greater than 0")
+      return
+    }
+
+    if (pageNumber > totalPages) {
+      toast.error("Page exceeds book length")
       return
     }
 
@@ -42,8 +56,9 @@ export default function AddReading() {
       }
 
       reset()
-    } catch {
-      toast.error("Error")
+    } catch (error) {
+      console.error(error)
+      toast.error("Server error")
     }
   }
 

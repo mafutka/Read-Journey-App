@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 import { UserBook } from "@/services/books/booksApi"
 import {
   startReadingApi,
@@ -12,23 +11,8 @@ interface ReadingSession {
   startPage: number
   finishPage: number
   pagesRead: number
-  readingTime: number
   date: string
   speed: number
-}
-
-interface ReadingState {
-  activeBook: UserBook | null
-  bookId: string | null
-  totalPages: number
-  currentPage: number
-  isReading: boolean
-  sessions: ReadingSession[]
-
-  setActiveBook: (book: UserBook) => void
-  startReading: (page: number) => Promise<void>
-  finishReading: (page: number) => Promise<void>
-  deleteSession: (readingId: string) => Promise<void>
 }
 
 interface BackendProgress {
@@ -45,76 +29,111 @@ interface BackendBookResponse {
   progress: BackendProgress[]
 }
 
-export const useReadingStore = create<ReadingState>()(
-  persist(
-    (set, get) => ({
-      activeBook: null,
-      bookId: null,
-      totalPages: 0,
-      currentPage: 0,
-      isReading: false,
-      sessions: [],
+interface ReadingState {
+  activeBook: UserBook | null
+  bookId: string | null
+  totalPages: number
+  isReading: boolean
+  currentPage: number
+  sessions: ReadingSession[]
 
-      setActiveBook: (book) =>
-        set({
-          activeBook: book,
-          bookId: book._id,
-          totalPages: book.totalPages,
-        }),
+  setActiveBook: (book: UserBook) => void
+  hydrateFromBook: (book: BackendBookResponse) => void
 
-      startReading: async (page) => {
-        const { bookId } = get()
-        if (!bookId) return
+  startReading: (page: number) => Promise<void>
+  finishReading: (page: number) => Promise<void>
 
-        await startReadingApi(bookId, page)
+  deleteSession: (readingId: string) => Promise<void>
+}
 
-        set({
-          currentPage: page,
-          isReading: true,
-        })
-      },
+export const useReadingStore = create<ReadingState>((set, get) => ({
+  activeBook: null,
+  bookId: null,
+  totalPages: 0,
+  isReading: false,
+  currentPage: 0,
+  sessions: [],
 
-      finishReading: async (page) => {
-        const { bookId } = get()
-        if (!bookId) return
-
-        const updatedBook: BackendBookResponse =
-          await finishReadingApi(bookId, page)
-
-        const sessions: ReadingSession[] =
-          updatedBook.progress
-            .filter((p) => p.finishPage)
-            .map((p) => ({
-              _id: p.startReading,
-              startPage: p.startPage,
-              finishPage: p.finishPage!,
-              pagesRead: p.finishPage! - p.startPage,
-              readingTime: 0,
-              date: p.finishReading!,
-              speed: p.speed,
-            }))
-
-        set({
-          isReading: false,
-          sessions,
-        })
-      },
-
-      deleteSession: async (readingId) => {
-        const { bookId } = get()
-        if (!bookId) return
-
-        await deleteReadingApi(bookId, readingId)
-
-        set((state) => ({
-          sessions: state.sessions.filter(
-            (s) => s._id !== readingId
-          ),
-        }))
-      },
+  setActiveBook: (book) =>
+    set({
+      activeBook: book,
+      bookId: book._id,
+      totalPages: book.totalPages,
     }),
-    {
-      name: "reading-storage",
-    }
-  )
-)
+
+  hydrateFromBook: (book) => {
+    const activeSession = book.progress.find(
+      (p) => !p.finishPage
+    )
+
+    const sessions: ReadingSession[] = book.progress
+      .filter((p) => p.finishPage)
+      .map((p) => ({
+        _id: p.startReading,
+        startPage: p.startPage,
+        finishPage: p.finishPage!,
+        pagesRead: p.finishPage! - p.startPage,
+        date: p.finishReading!,
+        speed: p.speed,
+      }))
+
+    set({
+      bookId: book._id,
+      totalPages: book.totalPages,
+      sessions,
+      isReading: !!activeSession,
+      currentPage: activeSession?.startPage ?? 0,
+    })
+  },
+
+  startReading: async (page) => {
+    const { bookId } = get()
+    if (!bookId) return
+
+    await startReadingApi(bookId, page)
+
+    set({
+      isReading: true,
+      currentPage: page,
+    })
+  },
+
+  finishReading: async (page) => {
+    const { bookId } = get()
+    if (!bookId) return
+
+    const updatedBook: BackendBookResponse =
+      await finishReadingApi(bookId, page)
+
+    const sessions: ReadingSession[] =
+      updatedBook.progress
+        .filter((p) => p.finishPage)
+        .map((p) => ({
+          _id: p.startReading,
+          startPage: p.startPage,
+          finishPage: p.finishPage!,
+          pagesRead: p.finishPage! - p.startPage,
+          date: p.finishReading!,
+          speed: p.speed,
+        }))
+
+    set({
+      isReading: false,
+      sessions,
+      currentPage: page,
+    })
+  },
+
+  deleteSession: async (readingId) => {
+    const { bookId } = get()
+    if (!bookId) return
+
+    await deleteReadingApi(bookId, readingId)
+
+    set((state) => ({
+      sessions: state.sessions.filter(
+        (s) => s._id !== readingId
+      ),
+    }))
+  },
+}))

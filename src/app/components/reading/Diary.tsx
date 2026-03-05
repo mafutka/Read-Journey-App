@@ -4,7 +4,9 @@ import { useReadingStore } from "@/store/useReadingStore"
 import toast from "react-hot-toast"
 
 export default function Diary() {
-  const { sessions, deleteSession } = useReadingStore()
+  const sessions = useReadingStore((s) => s.sessions)
+  const deleteSession = useReadingStore((s) => s.deleteSession)
+  const totalPages = useReadingStore((s) => s.totalPages)
 
   const handleDelete = async (id: string) => {
     try {
@@ -13,6 +15,10 @@ export default function Diary() {
     } catch {
       toast.error("Delete failed")
     }
+  }
+
+  if (!sessions.length) {
+    return <p style={{ marginTop: 20 }}>No reading sessions yet</p>
   }
 
   return (
@@ -26,25 +32,46 @@ export default function Diary() {
         marginTop: 20,
       }}
     >
-      {sessions.map((s) => (
-        <div
-          key={s._id}
-          style={{
-            border: "1px solid #eee",
-            padding: 16,
-            borderRadius: 12,
-          }}
-        >
-          <p>{new Date(s.date).toLocaleDateString()}</p>
-          <p>{s.pagesRead} pages</p>
-          <p>{s.speed} pages/hour</p>
-          <p>{s.readingTime} min</p>
+      {sessions.map((s) => {
+        const percent = Math.round(
+          (s.pagesRead / totalPages) * 100
+        )
 
-          <button onClick={() => handleDelete(s._id)}>
-            Delete
-          </button>
-        </div>
-      ))}
+        return (
+          <div
+            key={s._id}
+            style={{
+              border: "1px solid #eee",
+              padding: 16,
+              borderRadius: 12,
+            }}
+          >
+            <p>
+              <strong>Date:</strong>{" "}
+              {new Date(s.date).toLocaleDateString()}
+            </p>
+
+            <p>
+              <strong>Pages read:</strong> {s.pagesRead}
+            </p>
+
+            <p>
+              <strong>Speed:</strong> {s.speed} pages/hour
+            </p>
+
+            <p>
+              <strong>Progress:</strong> {percent}%
+            </p>
+
+            <button
+              onClick={() => handleDelete(s._id)}
+              style={{ marginTop: 8 }}
+            >
+              Delete
+            </button>
+          </div>
+        )
+      })}
     </div>
   )
 }
