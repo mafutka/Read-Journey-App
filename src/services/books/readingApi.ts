@@ -9,7 +9,7 @@ export const startReadingApi = async (
     page,
   })
 
-  return data
+  return data.data
 }
 
 export const finishReadingApi = async (
@@ -21,7 +21,7 @@ export const finishReadingApi = async (
     page,
   })
 
-  return data
+  return data.data
 }
 
 export const deleteReadingApi = async (
@@ -32,5 +32,5 @@ export const deleteReadingApi = async (
     `/books/reading?bookId=${id}&readingId=${readingId}`
   )
 
-  return data
+  return data.data
 }

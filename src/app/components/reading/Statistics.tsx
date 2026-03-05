@@ -1,37 +1,62 @@
 "use client"
 
 import { useReadingStore } from "@/store/useReadingStore"
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts"
+import ProgressCircle from "./ProgressCircle"
 
 export default function Statistics() {
+
   const sessions = useReadingStore((s) => s.sessions)
+  const totalPages = useReadingStore((s) => s.totalPages)
 
   if (!sessions.length) {
     return <p style={{ marginTop: 20 }}>No data yet</p>
   }
 
-  const data = sessions.map((s) => ({
-    date: new Date(s.date).toLocaleDateString(),
-    pages: s.pagesRead,
-  }))
+  const pagesRead = sessions.reduce(
+    (sum, s) => sum + s.pagesRead,
+    0
+  )
+
+  const percentage = Math.round(
+    (pagesRead / totalPages) * 100
+  )
 
   return (
-    <div style={{ marginTop: 20 }}>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="pages" />
-        </LineChart>
-      </ResponsiveContainer>
+    <div
+      style={{
+        marginTop: 20,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 20,
+      }}
+    >
+      <ProgressCircle percentage={percentage} />
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          fontSize: 18,
+        }}
+      >
+        <div
+          style={{
+            width: 12,
+            height: 12,
+            borderRadius: 4,
+            background: "#4ade80",
+          }}
+        />
+
+        <div>
+          <strong>{percentage}%</strong>
+          <p style={{ fontSize: 14, opacity: 0.7 }}>
+            {pagesRead} pages read
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

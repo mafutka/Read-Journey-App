@@ -55,27 +55,28 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   sessions: [],
 
   setActiveBook: (book) =>
-    set({
-      activeBook: book,
-      bookId: book._id,
-      totalPages: book.totalPages,
-    }),
-
+  set({
+    activeBook: book,
+    bookId: book._id,
+    totalPages: book.totalPages,
+    isReading: false,
+    sessions: [],
+  }),
   hydrateFromBook: (book) => {
     const activeSession = book.progress.find(
       (p) => !p.finishPage
     )
 
-    const sessions: ReadingSession[] = book.progress
-      .filter((p) => p.finishPage)
-      .map((p) => ({
-        _id: p.startReading,
-        startPage: p.startPage,
-        finishPage: p.finishPage!,
-        pagesRead: p.finishPage! - p.startPage,
-        date: p.finishReading!,
-        speed: p.speed,
-      }))
+const sessions: ReadingSession[] = book.progress
+  .filter((p) => p.finishPage)
+  .map((p) => ({
+    _id: p.startReading,
+    startPage: p.startPage,
+    finishPage: p.finishPage!,
+    pagesRead: p.finishPage! - p.startPage + 1,
+    date: p.finishReading!,
+    speed: p.speed,
+  }))
 
     set({
       bookId: book._id,
@@ -86,17 +87,17 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
     })
   },
 
-  startReading: async (page) => {
-    const { bookId } = get()
-    if (!bookId) return
+startReading: async (page) => {
+  const { bookId } = get()
+  if (!bookId) return
 
-    await startReadingApi(bookId, page)
+  const book = await startReadingApi(bookId, page)
 
-    set({
-      isReading: true,
-      currentPage: page,
-    })
-  },
+  set({
+    isReading: true,
+    currentPage: page,
+  })
+},
 
   finishReading: async (page) => {
     const { bookId } = get()
@@ -112,7 +113,7 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
           _id: p.startReading,
           startPage: p.startPage,
           finishPage: p.finishPage!,
-          pagesRead: p.finishPage! - p.startPage,
+          pagesRead: p.finishPage! - p.startPage + 1,
           date: p.finishReading!,
           speed: p.speed,
         }))

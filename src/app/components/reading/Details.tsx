@@ -10,9 +10,8 @@ export default function Details() {
 
   return (
     <div className={css.container}>
-      {/* Header */}
       <div className={css.heading}>
-        <h3>Diary</h3>
+        <h3>{view === "diary" ? "Diary" : "Statistics"}</h3>
 
         <div className={css.icons}>
           <span
@@ -23,8 +22,8 @@ export default function Details() {
             onClick={() => setView("diary")}
           >
             <svg className={css.detaisIcon}>
-          <use href="/symbol-defs.svg#icon-hourglass-01" />
-        </svg>
+              <use href="/symbol-defs.svg#icon-hourglass-01" />
+            </svg>
           </span>
 
           <span
@@ -34,9 +33,9 @@ export default function Details() {
             }}
             onClick={() => setView("stats")}
           >
-           <svg className={css.detaisIcon}>
-          <use href="/symbol-defs.svg#icon-pie-chart-02" />
-        </svg>
+            <svg className={css.detaisIcon}>
+              <use href="/symbol-defs.svg#icon-pie-chart-02" />
+            </svg>
           </span>
         </div>
       </div>
