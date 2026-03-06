@@ -21,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={css.app}>
         <AuthInitializer />
-        <Toaster position="top-right" />
+        <Toaster toastOptions={{
+    className: css.toast,
+  }} />
           {children}
       </body>
     </html>

@@ -20,9 +20,8 @@ type LibraryState = {
 
   fetchBooks: () => Promise<void>
 
-  addBookById: (bookId: string) => Promise<void>
-
-  addCustomBook: (data: AddCustomBookData) => Promise<void>
+addBookById: (bookId: string) => Promise<boolean>
+addCustomBook: (data: AddCustomBookData) => Promise<boolean>
 
   removeBook: (id: string) => Promise<void>
 }
@@ -43,31 +42,44 @@ export const useLibraryStore = create<LibraryState>((set) => ({
     }
   },
 
-  addBookById: async (bookId) => {
-    try {
-      const newBook = await addBookToLibrary(bookId)
+ addBookById: async (bookId) => {
+  const { books } = useLibraryStore.getState()
 
-      set((state) => ({
-        books: [...state.books, newBook],
-      }))
-      toast.success("Book added successfully!")
-    } catch {
-     toast.error("Something went wrong")
-    }
-  },
+  const exists = books.some((b) => b._id === bookId)
+
+  if (exists) {
+    toast("This book is already in your library")
+    return false
+  }
+
+  try {
+    const newBook = await addBookToLibrary(bookId)
+
+    set((state) => ({
+      books: [...state.books, newBook],
+    }))
+
+    return true
+  } catch {
+    toast.error("Something went wrong")
+    return false
+  }
+},
 
   addCustomBook: async (data) => {
-    try {
-      const newBook = await addBook(data)
+  try {
+    const newBook = await addBook(data)
 
-      set((state) => ({
-        books: [...state.books, newBook],
-      }))
-      toast.success("Book added successfully!")
-    } catch (e) {
-      toast.error("Something went wrong")
-    }
-  },
+    set((state) => ({
+      books: [...state.books, newBook],
+    }))
+
+    return true
+  } catch {
+    toast.error("Something went wrong")
+    return false
+  }
+},
 
   removeBook: async (id) => {
     try {
