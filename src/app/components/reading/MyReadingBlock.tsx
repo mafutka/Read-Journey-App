@@ -21,7 +21,9 @@ export default function MyReadingBlock() {
 
       <div className={css.bookInfo}>
         <h3>{activeBook.title}</h3>
-        <p>{activeBook.author}</p>
+        <p className={css.author}>{activeBook.author}</p>
+        <p className={css.pages}>{activeBook.totalPages}</p>
+
       </div>
 
       <button className={css.redBtn1}>

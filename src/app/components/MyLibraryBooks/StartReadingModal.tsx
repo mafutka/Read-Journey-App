@@ -33,7 +33,8 @@ export default function BookDetailsModal({
       <BookModalLayout
        imageUrl={book.imageUrl}
         title={book.title}
-        author={book.author}>
+        author={book.author}
+        >
       <DarkButton onClick={handleStartReading}>
         Start reading
       </DarkButton>

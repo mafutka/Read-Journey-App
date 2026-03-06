@@ -16,8 +16,8 @@ interface ReadingSession {
 }
 
 interface BackendProgress {
-  startPage: number
-  finishPage?: number
+  startPage: number | string
+  finishPage?: number | string
   startReading: string
   finishReading?: string
   speed: number
@@ -46,6 +46,23 @@ interface ReadingState {
   deleteSession: (readingId: string) => Promise<void>
 }
 
+const mapSessions = (progress: BackendProgress[]): ReadingSession[] =>
+  progress
+    .filter((p) => p.finishPage !== undefined)
+    .map((p) => {
+      const start = Number(p.startPage)
+      const finish = Number(p.finishPage)
+
+      return {
+        _id: p.startReading,
+        startPage: start,
+        finishPage: finish,
+        pagesRead: Math.max(finish - start + 1, 0),
+        date: p.finishReading!,
+        speed: p.speed,
+      }
+    })
+
 export const useReadingStore = create<ReadingState>((set, get) => ({
   activeBook: null,
   bookId: null,
@@ -55,73 +72,63 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   sessions: [],
 
   setActiveBook: (book) =>
-  set({
-    activeBook: book,
-    bookId: book._id,
-    totalPages: book.totalPages,
-    isReading: false,
-    sessions: [],
-  }),
-  hydrateFromBook: (book) => {
-    const activeSession = book.progress.find(
-      (p) => !p.finishPage
-    )
+    set({
+      activeBook: book,
+      bookId: book._id,
+      totalPages: book.totalPages,
+      sessions: [],
+      isReading: false,
+      currentPage: 0,
+    }),
 
-const sessions: ReadingSession[] = book.progress
-  .filter((p) => p.finishPage)
-  .map((p) => ({
-    _id: p.startReading,
-    startPage: p.startPage,
-    finishPage: p.finishPage!,
-    pagesRead: p.finishPage! - p.startPage + 1,
-    date: p.finishReading!,
-    speed: p.speed,
-  }))
+  hydrateFromBook: (book) => {
+    const activeSession = book.progress.find((p) => !p.finishPage)
+
+    const finishedSessions = mapSessions(book.progress)
+
+    const lastFinished = book.progress
+      .filter((p) => p.finishPage !== undefined)
+      .sort((a, b) => Number(b.finishPage) - Number(a.finishPage))[0]
 
     set({
       bookId: book._id,
       totalPages: book.totalPages,
-      sessions,
+      sessions: finishedSessions,
       isReading: !!activeSession,
-      currentPage: activeSession?.startPage ?? 0,
+      currentPage: activeSession
+        ? Number(activeSession.startPage)
+        : Number(lastFinished?.finishPage ?? 0),
     })
   },
 
-startReading: async (page) => {
-  const { bookId } = get()
-  if (!bookId) return
+  startReading: async (page) => {
+    const { bookId } = get()
+    if (!bookId) return
 
-  const book = await startReadingApi(bookId, page)
+    const updatedBook: BackendBookResponse = await startReadingApi(bookId, page)
 
-  set({
-    isReading: true,
-    currentPage: page,
-  })
-},
+    const activeSession = updatedBook.progress.find((p) => !p.finishPage)
+
+    set({
+      isReading: true,
+      currentPage: activeSession ? Number(activeSession.startPage) : page,
+      sessions: mapSessions(updatedBook.progress),
+    })
+  },
 
   finishReading: async (page) => {
     const { bookId } = get()
     if (!bookId) return
 
-    const updatedBook: BackendBookResponse =
-      await finishReadingApi(bookId, page)
-
-    const sessions: ReadingSession[] =
-      updatedBook.progress
-        .filter((p) => p.finishPage)
-        .map((p) => ({
-          _id: p.startReading,
-          startPage: p.startPage,
-          finishPage: p.finishPage!,
-          pagesRead: p.finishPage! - p.startPage + 1,
-          date: p.finishReading!,
-          speed: p.speed,
-        }))
+    const updatedBook: BackendBookResponse = await finishReadingApi(
+      bookId,
+      page,
+    )
 
     set({
       isReading: false,
-      sessions,
       currentPage: page,
+      sessions: mapSessions(updatedBook.progress),
     })
   },
 
@@ -132,9 +139,7 @@ startReading: async (page) => {
     await deleteReadingApi(bookId, readingId)
 
     set((state) => ({
-      sessions: state.sessions.filter(
-        (s) => s._id !== readingId
-      ),
+      sessions: state.sessions.filter((s) => s._id !== readingId),
     }))
   },
 }))

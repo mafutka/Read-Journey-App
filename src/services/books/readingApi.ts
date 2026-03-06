@@ -1,27 +1,33 @@
 import axios from "../auth/axiosInstance"
 
 export const startReadingApi = async (
-  id: string,
+  bookId: string,
   page: number
 ) => {
-  const { data } = await axios.post("/books/reading/start", {
-    id,
-    page,
-  })
+  const { data } = await axios.post(
+    "/books/reading/start",
+    {
+      id: bookId,
+      page,
+    }
+  )
 
-  return data.data
+  return data
 }
 
 export const finishReadingApi = async (
   id: string,
   page: number
 ) => {
-  const { data } = await axios.post("/books/reading/finish", {
-    id,
-    page,
-  })
+  const { data } = await axios.post(
+    "/books/reading/finish",
+    {
+      id,
+      page,
+    }
+  )
 
-  return data.data
+  return data
 }
 
 export const deleteReadingApi = async (
@@ -32,5 +38,5 @@ export const deleteReadingApi = async (
     `/books/reading?bookId=${id}&readingId=${readingId}`
   )
 
-  return data.data
+  return data
 }

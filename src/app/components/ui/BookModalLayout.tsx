@@ -6,6 +6,7 @@ type Props = {
   imageUrl: string
   title: string
   author: string
+  // totalPages: number
   children: React.ReactNode
 }
 

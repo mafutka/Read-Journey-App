@@ -31,8 +31,11 @@
     text-align: center;
 }
 .author {
-    font-size: 10px;
+    font-size: 12px;
     color: var(--text-gray);
+}
+.pages{
+    font-size: 10px;
 }
 
 .redBtn1 {

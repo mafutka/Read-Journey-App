@@ -33,9 +33,7 @@ export default function Diary() {
       }}
     >
       {sessions.map((s) => {
-        const percent = Math.round(
-          (s.pagesRead / totalPages) * 100
-        )
+        const percent = Math.round((s.finishPage / totalPages) * 100)
 
         return (
           <div
@@ -47,8 +45,7 @@ export default function Diary() {
             }}
           >
             <p>
-              <strong>Date:</strong>{" "}
-              {new Date(s.date).toLocaleDateString()}
+              <strong>Date:</strong> {new Date(s.date).toLocaleDateString()}
             </p>
 
             <p>
