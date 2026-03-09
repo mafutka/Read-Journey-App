@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Reading Journey 📚
 
-## Getting Started
+A simple web app for tracking your reading progress.
 
-First, run the development server:
+About
 
-```bash
+Reading Journey allows users to:
+
+add books to their library
+
+start and stop reading sessions
+
+track reading progress
+
+view reading statistics in a diary
+
+delete reading sessions
+
+The app helps visualize how much you read and how fast you progress through a book.
+
+Features
+
+Start and stop reading sessions
+
+Track pages read
+
+Calculate reading progress
+
+Display reading speed and time
+
+Reading diary with history
+
+Delete reading sessions
+
+Tech Stack
+
+Next.js
+
+React
+
+TypeScript
+
+Zustand (state management)
+
+React Hook Form
+
+Axios
+
+CSS Modules
+
+Installation
+
+Clone the repository:
+
+git clone https://github.com/your-username/reading-journey.git
+
+Install dependencies:
+
+npm install
+
+Run the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open in browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
+Project Structure
+src/
+ components/
+ store/
+ services/
+ styles/
+Future Improvements
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+editing reading sessions
 
-## Learn More
+better statistics and charts
 
-To learn more about Next.js, take a look at the following resources:
+mobile UI improvements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Created as a pet-project.
