@@ -1,0 +1,32 @@
+.container {
+    width: 335px;
+max-height: 272px;
+
+}
+
+.wrapper {
+    padding: 60px 45px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 16px;
+}
+
+.notificationText {
+    font-size: 14px;
+    color: var(--text-gray);
+    text-align: center;
+}
+
+.span {
+    color: var(--foreground);
+}
+
+@media (min-width: 768px) {
+    .container {
+    width: 342px;
+max-height: 290px;
+
+}
+}

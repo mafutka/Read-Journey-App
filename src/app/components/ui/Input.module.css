@@ -36,6 +36,11 @@ line-height: 133%;
   width: 100%;
   color: var(--foreground);
 }
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 ::placeholder {
   font-weight: 500;

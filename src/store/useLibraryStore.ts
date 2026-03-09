@@ -44,6 +44,7 @@ export const useLibraryStore = create<LibraryState>((set) => ({
 
  addBookById: async (bookId) => {
   const { books } = useLibraryStore.getState()
+    console.log("books in store:", books)
 
   const exists = books.some((b) => b._id === bookId)
 

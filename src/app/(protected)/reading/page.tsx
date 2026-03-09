@@ -18,12 +18,15 @@ export default function ReadingPage() {
         <AddReading />
 
         {!hasStartedReading ? (
-          <div style={{ marginTop: 24 }}>
-            <h3>Progress</h3>
+          <div className={css.progress}>
+          <div className={css.info}>
+            <h2>Progress</h2>
             <p>
               Here you will see when and how much you read.
               To record, click on the red button above.
             </p>
+          </div>
+          <img className={css.progresImg} src="/star.png" alt="" />
           </div>
         ) : (
           <Details />

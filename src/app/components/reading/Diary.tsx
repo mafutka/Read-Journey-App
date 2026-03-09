@@ -2,6 +2,7 @@
 
 import { useReadingStore } from "@/store/useReadingStore"
 import toast from "react-hot-toast"
+import css from "./Details.module.css"
 
 export default function Diary() {
   const sessions = useReadingStore((s) => s.sessions)
@@ -38,11 +39,12 @@ export default function Diary() {
         return (
           <div
             key={s._id}
-            style={{
-              border: "1px solid #eee",
-              padding: 16,
-              borderRadius: 12,
-            }}
+            className={css.diaryContainer}
+            // style={{
+            //   border: "1px solid #eee",
+            //   padding: 16,
+            //   borderRadius: 12,
+            // }}
           >
             <p>
               <strong>Date:</strong> {new Date(s.date).toLocaleDateString()}
@@ -59,12 +61,14 @@ export default function Diary() {
             <p>
               <strong>Progress:</strong> {percent}%
             </p>
+            <p>
+              <strong>Time:</strong> {s.time} min
+            </p>
 
-            <button
+            <button className={css.deleteBtn}
               onClick={() => handleDelete(s._id)}
-              style={{ marginTop: 8 }}
             >
-              Delete
+              <img src="/trash-2.png" alt="delete diary" />
             </button>
           </div>
         )

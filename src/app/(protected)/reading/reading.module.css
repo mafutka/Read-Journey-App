@@ -3,6 +3,23 @@
     flex-direction: column;
     gap: 10px;
 }
+.progress {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 10px;
+}
+.info {
+    display: flex;
+    flex-direction: column; 
+    gap: 14px;
+}
+.info p {
+    color: var(--text-gray);
+}
+.progresImg {
+    margin: 50px auto;
+}
 @media (min-width: 1440px) {.container {
     flex-direction: row;
     gap: 16px;

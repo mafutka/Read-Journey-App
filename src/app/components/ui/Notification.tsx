@@ -9,13 +9,13 @@ type Props = {
 
 export default function SuccessModal({ onClose }: Props) {
   return (
-    <Modal onClose={onClose}>
+    <Modal className={css.container} onClose={onClose}>
       <div className={css.wrapper}>
-        <button className={css.close} onClick={onClose}>
+        {/* <button className={css.close} onClick={onClose}>
           <svg className={css.closeBtnIcon}>
             <use href="/symbol-defs.svg#icon-x" />
           </svg>
-        </button>
+        </button> */}
 
         <div className={css.emoji}>
           <img src="/like_small.png" alt="like" />
@@ -24,7 +24,7 @@ export default function SuccessModal({ onClose }: Props) {
         <h2 className={css.notificationHeading}>Good job</h2>
 
         <p className={css.notificationText}>
-          Your book is now in the library! The joy knows no bounds and now you
+          Your book is now in <span className={css.span}>the library! </span>The joy knows no bounds and now you
           can start your training
         </p>
       </div>
