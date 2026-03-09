@@ -3,6 +3,7 @@
 import { useReadingStore } from "@/store/useReadingStore"
 import toast from "react-hot-toast"
 import css from "./Details.module.css"
+import SpeedChart from "./SpeedChart"
 
 export default function Diary() {
   const sessions = useReadingStore((s) => s.sessions)
@@ -10,10 +11,12 @@ export default function Diary() {
   const totalPages = useReadingStore((s) => s.totalPages)
 
   const handleDelete = async (id: string) => {
+     console.log("DELETE SESSION:", id)
     try {
       await deleteSession(id)
       toast.success("Session deleted")
-    } catch {
+    } catch (e) {
+      console.error(e)
       toast.error("Delete failed")
     }
   }
@@ -38,35 +41,36 @@ export default function Diary() {
 
         return (
           <div
-            key={s._id}
+            key={`${s._id}-${s.finishPage}`}
             className={css.diaryContainer}
-            // style={{
-            //   border: "1px solid #eee",
-            //   padding: 16,
-            //   borderRadius: 12,
-            // }}
           >
+            <div className={css.dateBlock}>
+              <img src="/quadrado.png" alt="quadrado" />
             <p>
-              <strong>Date:</strong> {new Date(s.date).toLocaleDateString()}
+              {new Date(s.date).toLocaleDateString()}
+            </p>
+            </div>
+                 <p>
+              {percent}%
+            </p>
+
+
+            <p>
+             {s.pagesRead}
             </p>
 
             <p>
-              <strong>Pages read:</strong> {s.pagesRead}
+             {s.speed} pages per hour
             </p>
 
+       
             <p>
-              <strong>Speed:</strong> {s.speed} pages/hour
+             {s.time} minutes
             </p>
 
-            <p>
-              <strong>Progress:</strong> {percent}%
-            </p>
-            <p>
-              <strong>Time:</strong> {s.time} min
-            </p>
-
-            <button className={css.deleteBtn}
-              onClick={() => handleDelete(s._id)}
+            <button
+              className={css.deleteBtn}
+              onClick={() => handleDelete(String(s._id))}
             >
               <img src="/trash-2.png" alt="delete diary" />
             </button>

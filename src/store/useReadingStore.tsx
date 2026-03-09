@@ -57,13 +57,10 @@ const mapSessions = (progress: BackendProgress[]): ReadingSession[] =>
       const startTime = new Date(p.startReading).getTime()
       const endTime = new Date(p.finishReading!).getTime()
 
-      const minutes = Math.max(
-        Math.round((endTime - startTime) / 60000),
-        1
-      )
+      const minutes = Math.max(Math.round((endTime - startTime) / 60000), 1)
 
       return {
-        _id: `${p.startReading}-${finish}`,
+        _id: new Date(p.startReading).toISOString(),
         startPage: start,
         finishPage: finish,
         pagesRead: Math.max(finish - start + 1, 0),
@@ -105,8 +102,8 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
       sessions: finishedSessions,
       isReading: !!activeSession,
       currentPage: activeSession
-  ? Number(activeSession.startPage)
-  : Number(lastFinished?.finishPage ?? 0),
+        ? Number(activeSession.startPage)
+        : Number(lastFinished?.finishPage ?? 0),
     })
   },
 
@@ -126,19 +123,21 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   },
 
   finishReading: async (page) => {
-  const { bookId, activeBook } = get()
-  if (!bookId) return
+    const { bookId, activeBook } = get()
+    if (!bookId) return
 
-  const updatedBook: BackendBookResponse =
-    await finishReadingApi(bookId, page)
+    const updatedBook: BackendBookResponse = await finishReadingApi(
+      bookId,
+      page,
+    )
 
-  set({
-    activeBook: activeBook, 
-    isReading: false,
-    currentPage: page,
-    sessions: mapSessions(updatedBook.progress),
-  })
-},
+    set({
+      activeBook: activeBook,
+      isReading: false,
+      currentPage: page,
+      sessions: mapSessions(updatedBook.progress),
+    })
+  },
 
   deleteSession: async (readingId) => {
     const { bookId } = get()

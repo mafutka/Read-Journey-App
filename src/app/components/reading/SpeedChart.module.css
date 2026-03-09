@@ -1,0 +1,36 @@
+.chartWrapper {
+  background: #1f1f1f;
+  border-radius: 12px;
+  padding: 20px;
+  color: #e3e3e3;
+}
+
+.chart {
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.barWrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.bar {
+  width: 100%;
+  background: linear-gradient(180deg, #4ade80, #16a34a);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s;
+}
+
+.speed {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.empty {
+  color: var(--text-gray);
+}

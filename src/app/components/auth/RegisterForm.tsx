@@ -25,28 +25,25 @@ export const RegisterForm = () => {
   })
 
   async function onSubmit(data: RegisterFormData) {
-    try {
-      setErrorMessage("")
+  try {
+    setErrorMessage("")
 
-      const result = await registerUser({
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      })
-      
+    await registerUser({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    })
 
-      if (result.token) {
-        setToken(result.token)
-        router.push("/recommended")
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message)
-      } else {
-        setErrorMessage("Something went wrong")
-      }
+    router.push("/login")
+
+  } catch (error) {
+    if (error instanceof Error) {
+      setErrorMessage(error.message)
+    } else {
+      setErrorMessage("Something went wrong")
     }
   }
+}
 
   return (
     <FormProvider {...methods}>

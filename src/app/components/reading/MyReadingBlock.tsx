@@ -19,14 +19,10 @@ export default function MyReadingBlock() {
       const nextPage = currentPage === 0 ? 1 : currentPage + 1
 
       if (!isReading) {
-        await startReading(nextPage)
+        await startReading(currentPage === 0 ? 1 : currentPage + 1)
         toast.success("Reading started")
       } else {
-        if (nextPage > totalPages) {
-          toast.error("Book finished")
-          return
-        }
-
+        await finishReading(currentPage)
         await finishReading(nextPage)
         toast.success("Reading stopped")
       }
