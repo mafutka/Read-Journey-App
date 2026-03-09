@@ -13,8 +13,14 @@ type FormValues = {
 }
 
 export default function AddReading() {
-  const { startReading, finishReading, isReading, currentPage, totalPages } =
-    useReadingStore()
+  const {
+  startReading,
+  finishReading,
+  isReading,
+  currentPage,
+  totalPages,
+  setPageInput
+} = useReadingStore()
 
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -27,10 +33,13 @@ export default function AddReading() {
   useEffect(() => {
     const nextPage = currentPage === 0 ? 1 : currentPage + 1
     reset({ page: nextPage })
-  }, [currentPage, reset])
+    setPageInput(nextPage)
+  }, [currentPage, reset, setPageInput])
 
   const onSubmit = async (data: FormValues) => {
+        console.log("CLICK")
     const page = Number(data.page)
+    setPageInput(page)
 
     if (page < 1 || page > totalPages) {
       toast.error("Invalid page")

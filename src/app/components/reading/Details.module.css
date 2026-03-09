@@ -1,29 +1,71 @@
 .heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .icons {
-    display: flex;
-    gap: 24px;
+  display: flex;
+  gap: 24px;
 }
 
 .changeBtn {
-
 }
 
 .detaisIcon {
-    width: 16px;
-    height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 /* diary styles */
-.diaryContainer {}
+.diaryContainer {
+  background-color: var(--input-background);
+  border-radius: 12px;
+  max-height: 211px;
+  padding: 16px;
+  overflow-y: auto;
+}
+.upper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.dateBlock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.quadrado {
+  width: 14px;
+  height: 14px;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    margin-left: 15px;
+}
+.percents,
+.chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.pages {
+  color: var(--text-gray);
+}
+.speedChart {
+    width: 44px;
+    height: auto;
+}
 .deleteBtn {
-    width: 20px;
-    height: 20px;
-    background-color: transparent;
-    color: var(--text-gray);
-    border: none;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  color: var(--text-gray);
+  border: none;
 }

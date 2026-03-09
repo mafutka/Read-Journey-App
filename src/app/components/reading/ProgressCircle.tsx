@@ -8,7 +8,7 @@ type ProgressCircleProps = {
 
 export default function ProgressCircle({
   percentage,
-  size = 220,
+  size = 116,
   strokeWidth = 14,
 }: ProgressCircleProps) {
 
@@ -39,7 +39,7 @@ export default function ProgressCircle({
 
         {/* progress */}
         <circle
-          stroke="#4ade80"
+          stroke="#30b94d"
           fill="transparent"
           strokeWidth={strokeWidth}
           strokeLinecap="round"

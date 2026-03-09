@@ -36,6 +36,7 @@ interface ReadingState {
   totalPages: number
   isReading: boolean
   currentPage: number
+  pageInput: number
   sessions: ReadingSession[]
 
   setActiveBook: (book: UserBook) => void
@@ -43,8 +44,9 @@ interface ReadingState {
 
   startReading: (page: number) => Promise<void>
   finishReading: (page: number) => Promise<void>
-
+setPageInput: (page:number)=>void
   deleteSession: (readingId: string) => Promise<void>
+    deleteSessionUI: (readingId: string) => void
 }
 
 const mapSessions = (progress: BackendProgress[]): ReadingSession[] =>
@@ -75,7 +77,9 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
   totalPages: 0,
   isReading: false,
   currentPage: 0,
+  pageInput: 1,
   sessions: [],
+  setPageInput: (page) => set({ pageInput: page }),
 
   setActiveBook: (book) =>
     set({
@@ -83,6 +87,7 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
       bookId: book._id,
       totalPages: book.totalPages,
       sessions: [],
+      
       isReading: false,
       currentPage: 0,
     }),
@@ -138,6 +143,10 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
       sessions: mapSessions(updatedBook.progress),
     })
   },
+  deleteSessionUI: (readingId: string) =>
+  set((state) => ({
+    sessions: state.sessions.filter((s) => s._id !== readingId),
+  })),
 
   deleteSession: async (readingId) => {
     const { bookId } = get()
@@ -150,3 +159,4 @@ export const useReadingStore = create<ReadingState>((set, get) => ({
     }))
   },
 }))
+

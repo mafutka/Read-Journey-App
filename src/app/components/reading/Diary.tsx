@@ -1,79 +1,68 @@
-"use client"
-
 import { useReadingStore } from "@/store/useReadingStore"
 import toast from "react-hot-toast"
 import css from "./Details.module.css"
-import SpeedChart from "./SpeedChart"
 
 export default function Diary() {
   const sessions = useReadingStore((s) => s.sessions)
-  const deleteSession = useReadingStore((s) => s.deleteSession)
   const totalPages = useReadingStore((s) => s.totalPages)
-
-  const handleDelete = async (id: string) => {
-     console.log("DELETE SESSION:", id)
-    try {
-      await deleteSession(id)
-      toast.success("Session deleted")
-    } catch (e) {
-      console.error(e)
-      toast.error("Delete failed")
-    }
-  }
+  const deleteSessionUI = useReadingStore((s) => s.deleteSessionUI)
 
   if (!sessions.length) {
     return <p style={{ marginTop: 20 }}>No reading sessions yet</p>
   }
 
   return (
-    <div
-      style={{
-        maxHeight: 400,
-        overflowY: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-        marginTop: 20,
-      }}
-    >
-      {sessions.map((s) => {
-        const percent = Math.round((s.finishPage / totalPages) * 100)
+    <div className={css.diaryContainer}>
+      {[...sessions].reverse().map((s, index: number) => {
+        const percent = Math.round(
+          ((s.finishPage - s.startPage + 1) / totalPages) * 100,
+        )
 
         return (
-          <div
-            key={`${s._id}-${s.finishPage}`}
-            className={css.diaryContainer}
-          >
-            <div className={css.dateBlock}>
-              <img src="/quadrado.png" alt="quadrado" />
-            <p>
-              {new Date(s.date).toLocaleDateString()}
-            </p>
+          <div key={`${s._id}-${s.finishPage}`} className={css.session}>
+            <div className={css.upper}>
+              <div
+                className={`${css.dateBlock} ${index === 0 ? css.dateBlockActive : css.dateBlockInactive}`}
+              >
+                <img
+                  className={css.quadrado}
+                  src="/quadrado.png"
+                  alt="quadrado"
+                />
+                <h3>
+                  {new Date(s.date)
+                    .toLocaleDateString("uk-UA")
+                    .replace(/\//g, ".")}
+                </h3>
+              </div>
+              <p className={css.pages}>{s.pagesRead} pages</p>
             </div>
-                 <p>
-              {percent}%
-            </p>
+            <div className={css.bottom}>
+              <div className={css.percents}>
+                <h2>{percent}%</h2>
+                <p className={css.pages}>{s.time} minutes</p>
+              </div>
+              <div className={css.chart}>
+                <div className={css.deleteCharts}>
+                  <img
+                    src="/speedchart.png"
+                    alt="speedchart"
+                    className={css.speedChart}
+                  />
 
-
-            <p>
-             {s.pagesRead}
-            </p>
-
-            <p>
-             {s.speed} pages per hour
-            </p>
-
-       
-            <p>
-             {s.time} minutes
-            </p>
-
-            <button
-              className={css.deleteBtn}
-              onClick={() => handleDelete(String(s._id))}
-            >
-              <img src="/trash-2.png" alt="delete diary" />
-            </button>
+                  <button
+                    className={css.deleteBtn}
+                    onClick={() => {
+                      deleteSessionUI(s._id)
+                      toast.success("Progress deleted")
+                    }}
+                  >
+                    <img src="/trash-2.png" alt="delete diary" />
+                  </button>
+                </div>
+                <p className={css.pages}>{s.speed} pages per hour</p>
+              </div>
+            </div>
           </div>
         )
       })}

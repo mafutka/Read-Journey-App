@@ -3,12 +3,12 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
-import { useAuthStore } from "../../../store/useAuthStore"
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   registerSchema,
   RegisterFormData,
 } from "../../../services/auth/authValidation"
+import {useAuthStore} from "../../../store/useAuthStore"
 import Input from "../ui/Input"
 import Button from "../ui/Button"
 import { registerUser } from "../../../services/auth/authApi"
@@ -18,7 +18,7 @@ import css from "./Auth.module.css"
 export const RegisterForm = () => {
   const router = useRouter()
   const [errorMessage, setErrorMessage] = useState<string>("")
-  const setToken = useAuthStore((s) => s.setToken)
+   const setToken = useAuthStore((state) => state.setToken);
   const methods = useForm<RegisterFormData>({
     mode: "onTouched",
     resolver: yupResolver(registerSchema),
@@ -28,23 +28,26 @@ export const RegisterForm = () => {
   try {
     setErrorMessage("")
 
-    await registerUser({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    })
-
-    router.push("/login")
-
-  } catch (error) {
-    if (error instanceof Error) {
-      setErrorMessage(error.message)
-    } else {
-      setErrorMessage("Something went wrong")
+    const result = await registerUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      })
+      
+     if (result.token) {
+        setToken(result.token);
+        router.push("/recommended"); 
+      } else {
+        router.push("/login"); 
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Something went wrong");
+      }
     }
   }
-}
-
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} className={css.form}>

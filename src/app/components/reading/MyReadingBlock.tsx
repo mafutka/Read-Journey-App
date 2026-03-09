@@ -10,26 +10,35 @@ export default function MyReadingBlock() {
   const startReading = useReadingStore((s) => s.startReading)
   const finishReading = useReadingStore((s) => s.finishReading)
   const currentPage = useReadingStore((s) => s.currentPage)
-  const totalPages = useReadingStore((s) => s.totalPages)
+  const pageInput = useReadingStore((s)=>s.pageInput)
+
+      console.log("activeBook", activeBook)
+console.log("currentPage", currentPage)
+console.log("isReading", isReading)
 
   if (!activeBook) return null
 
   const handleClick = async () => {
-    try {
-      const nextPage = currentPage === 0 ? 1 : currentPage + 1
+      console.log("CLICK")
 
-      if (!isReading) {
-        await startReading(currentPage === 0 ? 1 : currentPage + 1)
-        toast.success("Reading started")
-      } else {
-        await finishReading(currentPage)
-        await finishReading(nextPage)
-        toast.success("Reading stopped")
-      }
-    } catch {
-      toast.error("Server error")
+  try {
+    const nextPage = currentPage === 0 ? 1 : currentPage + 1
+
+    if (!isReading) {
+      await startReading(nextPage)
+      toast.success("Reading started")
+    } else {
+      if (pageInput <= currentPage) {
+  toast.error(`Stop page must be greater than start page (${currentPage})`)
+  return
+}
+      await finishReading(pageInput)
+      toast.success("Reading stopped")
     }
+  } catch {
+    toast.error("Server error")
   }
+}
 
   return (
     <div className={css.card}>

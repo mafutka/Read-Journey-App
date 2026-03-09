@@ -29,6 +29,10 @@ export default function Statistics() {
         flexDirection: "column",
         alignItems: "center",
         gap: 20,
+        backgroundColor: "#262626",
+        borderRadius: 12,
+        padding: 20,
+        
       }}
     >
       <ProgressCircle percentage={percentage} />
@@ -46,7 +50,7 @@ export default function Statistics() {
             width: 12,
             height: 12,
             borderRadius: 4,
-            background: "#4ade80",
+            background: "#30b94d",
           }}
         />
 
